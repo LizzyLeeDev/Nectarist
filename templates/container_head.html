@@ -1,0 +1,16 @@
+{% load static %}
+<div id="container_head">
+    <div class="container_space h-100">
+        <!-- 로고 -->
+        <div class="d-flex h-100" style="justify-content: space-between;">
+            <img id="container_head_logo" src="{% static 'img/topbar_logo.png' %}" onclick="location.href = '/';"/>
+            {% if category_current != 'main' and category_current != 'sign_in' %}
+                {% if is_login == 'Y' %}
+                <button class="btn nectarist-button-trans-short" onclick="req_signout();">로그아웃</button>
+                {% else %}
+                <button class="btn nectarist-button-trans-short" onclick="location.href = '/sign_in/';">로그인</button>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>

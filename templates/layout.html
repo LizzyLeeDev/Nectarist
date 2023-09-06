@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% include 'templates/header.html' %}
+    </head>
+    <body>
+        <div class="pt-2">
+        {% include 'templates/container_head.html' %}
+        {% include 'templates/container_category.html' %}
+        <div id="container_center">
+            <div class="container_space h-100">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+        {% include 'templates/container_foot.html' %}
+        </div>
+    </body>
+    <foot>
+        {% include 'templates/footer.html' %}
+    </foot>
+</html>

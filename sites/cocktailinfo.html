@@ -1,0 +1,31 @@
+{% extends 'templates/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="px-3 pt-3 pb-4">
+    <div class="menu-title">
+        <span class="menu-name"><i class="fa fa-chevron-right" style="margin-bottom: 2px;"></i> {{ category_name }}</span>
+        <span class="menu-exp d-block d-lg-inline">: {{ category_exp }}</span>
+    </div>
+    <div class="mt-3">
+        <div class="row">
+            {% for cocktail in page_data %}
+            <div class="col-6 col-lg-3">
+                <div class="nectarist-gallery-item" onclick="location.href = '/cocktailinfo/detail/{{ cocktail.nt_cocktail_idx }}';">
+                    <img src="{% static cocktail.nt_cocktail_thumbnail %}">
+                    <div class="nectarist-gallery-title">{{ cocktail.nt_cocktail_nm }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="mt-3">
+        {% include 'templates/paging.html' %}
+    </div>
+    <div class="mt-3">
+        <div class="nectarist-search">
+            <input type="text">
+            <button><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+</div>
+{% endblock %}
