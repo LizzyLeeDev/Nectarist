@@ -1,0 +1,571 @@
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * all : 프로젝트 전체에서 공통적으로 사용할 스타일
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    body * {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 1.2rem;
+        overflow: hidden;
+    }
+    body a {
+        color: inherit;
+        font-family: inherit;
+    }
+    body a:hover {
+        color: inherit;
+        text-decoration: none;
+    }
+    .btn.focus, .btn:focus {
+        box-shadow: 0!important;
+    }
+    .container_space {
+        width: 1100px;
+        margin: 0 auto;
+    }
+    @media (max-width:992px){ /* 화면너비 ~lg 기준 */
+        .container_space {
+            width: 100vw;
+        }
+    }
+    #nectarist_copyright {
+        color: white;
+        text-align: center;
+        width: 100%;
+        align-self: flex-end;
+        padding-bottom: 0.5rem;
+        font-weight: 100;
+        font-size: 1rem;
+    }    
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * subject : 메인화면의 구역별 제목
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    .nectarist-subject {
+        border-bottom: 2px solid #bbb6b6;
+        background-color: #f1f1f1;
+        padding: 0 0.5rem;
+    }
+    .nectarist-subject .nectarist-subject-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #000000;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * miniboard : 메인화면의 게시판 미리보기
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    .nectarist-miniboard {
+        border-top: 2px solid #bbb6b6;
+        border-bottom: 2px solid #bbb6b6;
+    }
+    .nectarist-miniboard ul {
+        padding: 0;
+        margin: 0;
+    }
+    .nectarist-miniboard ul li {
+        padding: 0.25rem 0.5rem;
+        border-top: 1px dashed #bbb6b6;
+        margin-top: -1px;
+        cursor: pointer;
+    }
+    .nectarist-miniboard ul li:hover {
+        font-weight: bold;
+
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * gallery : 칵테일정보 리스트의 갤러리형 게시판
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    .nectarist-gallery-item {
+        padding: 0.75rem 0;
+    }
+    .nectarist-gallery-item img {
+        border: 1px solid #bbb6b6;
+        aspect-ratio: 1 / 0.7;
+        width: 100%;
+        cursor: pointer;
+    }
+    .nectarist-gallery-item .nectarist-gallery-title {
+        border: 1px solid #bbb6b6;
+        margin-top: -1px;
+        text-align: center;
+        background-color: black;
+        color: #f1f1f1;
+        cursor: pointer;
+    }
+    .nectarist-gallery-item:hover .nectarist-gallery-title {
+        font-weight: bold;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * title : 메뉴들에서 공통 사용하는 상단의 메뉴 정보
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    .menu-title {
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #d4d9dd;
+    }
+    .menu-title .menu-name {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #424246;
+    }
+    .menu-title .menu-exp {
+        color: #bbb6b6;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * paging : 메뉴들에서 공통 사용하는 페이지 버튼
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    .nectarist-paging {
+        text-align: center;
+    }
+    .nectarist-paging .nectarist-paging-button {
+        border: 0;
+        background-color: transparent;
+        font-size: 1.4rem;
+        font-weight: 500;
+        min-width: 40px;
+        outline: 0;
+        cursor: pointer;
+    }
+    .nectarist-paging .nectarist-paging-button.active {
+        color: #ff46a0;
+        cursor: default;
+    }
+    .nectarist-paging .nectarist-paging-button.disabled {
+        color: #d4d9dd;
+        cursor: not-allowed;
+    }
+    .nectarist-paging .nectarist-paging-button:not(.active):not(.disabled):hover {
+        font-weight: bold;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * paging : 메뉴들에서 공통 사용하는 하단 검색창
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    .nectarist-search {
+        display: flex;
+        justify-content: center;
+    }
+    .nectarist-search input {
+        border: 1px solid #bbb6b6;
+        border-right: 0;
+        outline: 0;
+    }
+    .nectarist-search button {
+        border: 1px solid #bbb6b6;
+        background-color: #424246;
+        color: white;
+        min-height: 40px;
+        padding: 0 0.75rem;
+        outline: 0;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * comment : 메뉴들에서 공통 사용하는 하단 덧글창
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    .nectarist-comment-header {
+        border-bottom: 2px solid #d4d9dd;
+        background-color: #f1f1f1;
+        padding: 0 0.5rem;
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: #000000;
+    }
+    .nectarist-comment {
+        border-bottom: 2px solid #d4d9dd;
+    }
+    .nectarist-comment-empty {
+        color: #bbb6b6;
+        text-align: center;
+        flex: 1;
+    }
+    .nectarist-comment-item {
+        border-top: 1px dashed #bbb6b6;
+        margin-top: -1px;
+        padding: 0.5rem 0.75rem;
+    }
+    .nectarist-comment-user {
+        min-width: 200px;
+        font-weight: 500;
+    }
+    .nectarist-comment-text {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        flex: 1;
+    }
+    .nectarist-comment-time {
+        min-width: 150px;;
+        text-align: right;
+        font-size: 1rem;
+        color: #bbb6b6;
+    }
+    .nectarist-comment-add {
+        border-bottom: 2px solid #d4d9dd;
+        padding: 0.5rem 0.75rem;
+    }
+    .nectarist-comment-input {
+        flex: 1;
+        outline: 0;
+        height:36px;
+    }
+    .nectarist-comment-button {
+        min-width: 150px;
+        padding-left: 0.5rem;
+        align-self: flex-end;
+    }
+    .nectarist-comment-button button {
+        border: 0;
+        background-color: #424246;
+        color: white;
+        width: -webkit-fill-available;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * board : 일반 게시판 목록
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    .nectarist-board {
+        border-bottom: 2px solid #d4d9dd;
+    }
+    .nectarist-board-empty {
+        color: #bbb6b6;
+        text-align: center;
+        flex: 1;
+    }
+    .nectarist-board-item {
+        border-top: 1px dashed #bbb6b6;
+        margin-top: -1px;
+        padding: 0.5rem 0.75rem;
+    }
+    .nectarist-board-item:hover {
+        cursor: pointer;
+        background-color: #f1f1f1;
+        font-weight: bold;
+    }
+    .nectarist-board-title {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        flex: 1;
+    }
+    .nectarist-board-count {
+        font-size: 1rem;
+        color: #bbb6b6;
+    }
+    .nectarist-board-user {
+        min-width: 200px;
+    }
+    .nectarist-board-time {
+        min-width: 150px;
+        text-align: right;
+        font-size: 1rem;
+        color: #bbb6b6;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * board-detail : 일반 게시판 상세보기
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    .nectarist-board-detail-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #000000;
+    }
+    .nectarist-board-detail-user {
+        font-size: 1rem;
+        color: #bbb6b6;
+    }
+    .nectarist-board-detail-time {
+        text-align: right;
+        font-size: 1rem;
+        color: #bbb6b6;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * button : 메뉴들에서 공통 사용하는 버튼
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    .nectarist-login-button {
+        background-color: #f1f1f1;
+        outline: 0!important;
+        box-shadow: none!important;
+        font-weight: bold;
+        font-size: 1.4rem;
+    }
+    .nectarist-login-option {
+        color: #bbb6b6;
+        background-color: transparent;
+        outline: 0!important;
+        box-shadow: none!important;
+        font-size: 1.2rem;
+        text-align: left;
+        margin-top: 0!important;
+    }
+    .nectarist-login-option i {
+        margin-bottom: -2px;
+    }
+    .nectarist-button-absolute {
+        height: 0;
+        overflow: visible;
+    }
+    .nectarist-button-dark-short {
+        min-width: 140px;
+        border: 0;
+        background-color: #424246;
+        color: white;
+        outline: 0!important;
+        box-shadow: none!important;
+    }
+    .nectarist-button-white-short {
+        min-width: 140px;
+        border: 0;
+        background-color: #f1f1f1;
+        color: #424246;
+        outline: 0!important;
+        box-shadow: none!important;
+    }
+    .nectarist-button-trans-short {
+        min-width: 140px;
+        border: 0;
+        background-color: transparent;
+        color: #424246;
+        font-weight: bold;
+        outline: 0!important;
+        box-shadow: none!important;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * form : 폼 화면에서 공통 사용할 스타일
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    .nectarist-form-input {
+        width: 100%;
+    }
+    .nectarist-form-exp {
+        font-size: 0.9rem;
+        color: #bbb6b6;
+    }
+    .nectarist-form-input {
+        outline: 0!important;
+        min-height: 36px;
+    }
+    .nectarist-form-text {
+        width: 100%;
+        min-height: 360px;
+    }
+    .nectarist_form_id_result,
+    .nectarist_form_pw_result,
+    .nectarist_form_pwchk_result,
+    .nectarist_form_name_result,
+    .nectarist_form_email_result {
+        font-size: 0.9rem;
+    }
+    .nectarist-form .col-12 {
+        min-height: 60px;
+    }
+    .invalid-input {
+        border: 1px solid #424246;
+        animation: invalid-blink 1s ease-in-out infinite;
+    }
+    @keyframes invalid-blink {
+        50% {
+            border-color: red;
+        }
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * mypage : 마이페이지에서 사용할 스타일
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    #mypage_subcategory {
+        display: flex;
+    }
+    #mypage_subcategory .mypage-subcategory-item {
+        color: #bbb6b6;
+        padding: 0.25rem 0.75rem;
+    }
+    #mypage_subcategory .mypage-subcategory-item.category-current {
+        background-color: #d4d9dd;
+        color: black;
+    }
+    .nectarist-subcategory-title {
+        color: #424246;
+        font-size: 1.4rem;
+        font-weight: 600;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * refrig : 냉장고에서 사용할 스타일
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    .nectarist-refrig-container {
+        border: 1px solid #AAAAAA;
+        border-radius: 4px;
+        min-height: 200px;
+        padding: 0.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+    }
+    .nectarist-ingrd-item {
+        border: 1px solid #aaa;
+        width: fit-content;
+        border-radius: 4px;
+        width: fit-content;
+        height: fit-content;
+        margin-bottom: 0.25rem;
+        margin-right: 0.25rem;
+    }
+    .nectarist-ingrd-item i {
+        margin-bottom: -2px;
+    }
+    .nectarist-ingrd-type {
+        padding: 0.25rem 0.5rem;
+        border-right: 1px solid #AAAAAA;
+        background-color: #d4d9dd;
+    }
+    .nectarist-ingrd-name {
+        padding: 0.25rem 0.5rem;
+    }
+    .nectarist-ingrd-delete {
+        padding: 0.25rem 0.5rem;
+        cursor: pointer;
+    }
+    #nectarist_ingrd_empty {
+        width: 100%;
+        text-align: center;
+        top: 4rem;
+        position: relative;
+        color: #bbb6b6;
+    }
+    #nectarist_refrig_savechk + label {
+        cursor: pointer;
+        margin-bottom: 0!important;
+        display: inline;
+    }
+    .nectarist-calc-title {
+        color: black;
+        font-weight: 600;
+        font-size: 1.4rem;
+    }
+    .nectarist-calc-ingrd {
+        color: #424246;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * container : 화면 나누기용 컨테이너
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    #container_head {
+        width: 100vw;
+        height: 4rem;
+        background-color: #FFFFFF;
+    }
+    #container_head_logo {
+        height: inherit;
+        cursor: pointer;
+    }
+    #container_category {
+        width: 100vw;
+        height: 3.5rem;
+        background-color: #212121;
+    }
+    #container_category .navbar-item {
+        color: #f1f1f1;
+        font-size: 1.4rem;
+        font-family: 'Diphylleia', serif;
+        font-weight: 600;
+        padding: 0 0.75rem 0.25rem 0.75rem
+    }
+    #container_category .navbar-item * {
+        font-size: 1.4rem;
+    }
+    #container_category .navbar-item:not(:first-child) {
+        border-left: 1px solid #424246;
+        border-radius: 0.4rem;
+    }
+    #container_category .navbar-item:not(:last-child) {
+        border-right: 1px solid #424246;
+        border-radius: 0.4rem;
+    }
+    #container_category .navbar-item.category-current {
+        color: #ff46a0;
+    }
+    #container_foot {
+        width: 100vw;
+        height: 4rem;
+        background-color: #424246;
+    }
+    #container_center {
+        width: 100vw;
+        min-height: calc(100vh - 11.5rem);
+        background-color: #FFFFFF;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * main : 메인화면에서 사용할 스타일
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    #main_carousel {
+        width: 815px;
+        max-width: 100%;
+        height: 0;
+        padding-top: 30%;
+        margin: auto;
+    }
+    #main_carousel .carousel-inner {
+        position: absolute;
+        top: 0;
+        overflow: hidden;
+        height: 100%;
+    }
+    #main_carousel .carousel-button {
+        background-color: transparent;
+        border: 0;
+        overflow: visible;
+        padding: 0 1.5rem;
+        width: 0;
+        opacity: 1;
+    }
+    #main_carousel .carousel-button span {
+        min-width: 20px;
+        min-height: 20px;
+    }
+    #main_carousel .carousel-indicators button {
+        margin: 0 0.25rem;
+        border: 0;
+        background-color: #bbb6b6;
+    }
+    #main_carousel .carousel-indicators button.active {
+        background-color: #f1f1f1;
+    }
+    .nectarist_userbox {
+        background-color: #424246;
+        height: 100%;
+    }
+    .nectarist-signin-title {
+        color: #f1f1f1;
+        font-size: 1.6rem;
+    }
+    .nectarist-signin-input {
+        width: 100%;
+        font-size: 1.4rem;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * cocktailinfo : 칵테일정보 메뉴에서 사용할 스타일
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    #cocktail_title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #000000;
+    }
+    .cocktail_attr_title {
+        font-size: 1.4rem;
+        color: #424246;
+    }
+    .cocktail_attr_text {
+        font-size: 1.2rem;
+        color: #bbb6b6;
+        padding-left: 1rem;
+    }
+    .cocktail_attr_ilst {
+        font-size: 1.2rem;
+        color: #bbb6b6;
+        padding-left: 1rem;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * select2 : select2 이슈 수정
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    .select2-container .select2-selection--multiple .select2-selection__rendered {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        display: flex;
+        flex-direction: row-reverse;
+        width: fit-content;
+        padding-left: 0.25rem;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice .select2-selection__choice__remove {
+        position: inherit;
+    }
+    .select2-search__field {
+        min-height: 30px;
+        min-width: 260px;
+    }

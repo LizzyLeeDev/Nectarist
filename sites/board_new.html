@@ -1,0 +1,42 @@
+{% extends 'templates/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="px-3 pt-3 pb-4">
+    <div class="menu-title">
+        <span class="menu-name"><i class="fa fa-chevron-right" style="margin-bottom: 2px;"></i> {{ category_name }}</span>
+        <span class="menu-exp d-block d-lg-inline">: {{ category_exp }}</span>
+    </div>
+    <div class="mt-3">
+        <div class="row nectarist-form">
+            <!-- 제목 -->
+            <div class="col-12 col-lg-2">
+                <div class="nectarist-form-title text-lg-right">제목</div>
+            </div>
+            <div class="col-12 col-lg-10">
+                <input id="nectarist_form_title" type="text" class="nectarist-form-input">
+            </div>
+            <!-- 내용 -->
+            <div class="col-12 col-lg-2">
+                <div class="nectarist-form-title text-lg-right">내용</div>
+            </div>
+            <div class="col-12 col-lg-10 pb-3">
+                <textarea id="nectarist_form_text" class="nectarist-form-text"></textarea>
+            </div>
+            <!-- 칵테일 태그-->
+            <div class="col-12 col-lg-2">
+                <div class="nectarist-form-title text-lg-right">칵테일 태그</div>
+            </div>
+            <div class="col-12 col-lg-10">
+                <select class="nectarist-form-select select2" multiple="multiple">
+                    {% for cocktail in cocktail_list %}
+                    <option value="{{ cocktail.nt_cocktail_idx }}">{{ cocktail.nt_cocktail_nm }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-center">
+        <button class="nectarist-button-dark-short btn" onclick="req_board_new('{{ board_type }}','/{{ category_current }}');">등록</button>
+    </div>
+</div>
+{% endblock %}

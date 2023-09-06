@@ -1,0 +1,32 @@
+{% extends 'templates/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="px-3 pt-3 pb-4">
+    <div class="menu-title">
+        <span class="menu-name"><i class="fa fa-chevron-right" style="margin-bottom: 2px;"></i> 로그인</span>
+        <span class="menu-exp d-block d-lg-inline">: 회원가입시 입력한 아이디와 패스워드로 로그인하실 수 있습니다.</span>
+    </div>
+    <div style="margin-top: 10%;">
+        <div class="row">
+            <div class="col-12 col-lg-2"></div>
+            <div class="col-12 col-lg-8">
+                <div class="nectarist_userbox pt-5 pb-3 px-5">
+                    <div class="row">
+                        <div class="col-12 col-lg-3 nectarist-signin-title">아이디</div>
+                        <div class="col-12 col-lg-9"><input type="text" id="nectarist_signin_id" class="nectarist-signin-input"></div>
+                        <div class="col-12 col-lg-3 nectarist-signin-title mt-3">비밀번호</div>
+                        <div class="col-12 col-lg-9"><input type="password" id="nectarist_signin_pw" class="nectarist-signin-input mt-3"></div>
+                    </div>
+                    <button class="nectarist-login-button btn btn-block mt-5" onclick="req_signin();">로그인</button>
+                    <div class="d-flex mt-3">
+                        <button class="nectarist-login-option btn btn-block text-center" onclick="location.href = '/sign_up/';">회원가입</button>
+                        <button class="nectarist-login-option btn btn-block text-center">아이디 찾기</button>
+                        <button class="nectarist-login-option btn btn-block text-center">비밀번호 찾기</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-2"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

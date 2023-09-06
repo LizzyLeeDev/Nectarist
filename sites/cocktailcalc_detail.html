@@ -1,0 +1,50 @@
+{% extends 'templates/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="px-3 pt-3 pb-4">
+    <div class="menu-title">
+        <span class="menu-name"><i class="fa fa-chevron-right" style="margin-bottom: 2px;"></i> {{ category_name }}</span>
+        <span class="menu-exp d-block d-lg-inline">: {{ category_exp }}</span>
+    </div>
+    <div class="mt-3">
+        <div class="nectarist-subcategory-title">만들 수 있는 칵테일</div>
+        <div class="nectarist-calc-container mt-2">
+            {% for cocktail in all_complete_cocktail %}
+            <div class="nectarist-calc-item">
+                <div class="row">
+                    <div class="col-12 col-lg-3">
+                        <img src="{% static cocktail.cocktail_thumbnail %}" style="width: 230px; aspect-ratio: 1 / 0.7;">
+                    </div>
+                    <div class="col-12 col-lg-6 px-0">
+                        <div class="nectarist-calc-title">{{ cocktail.cocktail_name }}</div>
+                        <div class="nectarist-calc-ingrd mt-3">{{ cocktail.cocktail_ingname }}</div>
+                    </div>
+                    <div class="col-12 col-lg-3">
+                        <button class="btn btn-block nectarist-button-dark-short" onclick="location.href = '/cocktailinfo/detail/{{ cocktail.cocktail_idx }}';">칵테일 정보보기</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="nectarist-subcategory-title mt-3">한가지만 더 있으면 만들 수 있는 칵테일</div>
+        <div class="nectarist-calc-container mt-2">
+            {% for cocktail in sub_complete_cocktail %}
+            <div class="nectarist-calc-item">
+                <div class="row">
+                    <div class="col-12 col-lg-3">
+                        <img src="{% static cocktail.cocktail_thumbnail %}" style="width: 230px; aspect-ratio: 1 / 0.7;">
+                    </div>
+                    <div class="col-12 col-lg-6 px-0">
+                        <div class="nectarist-calc-title">{{ cocktail.cocktail_name }}</div>
+                        <div class="nectarist-calc-ingrd mt-3">{{ cocktail.cocktail_ingname }}</div>
+                    </div>
+                    <div class="col-12 col-lg-3">
+                        <button class="btn btn-block nectarist-button-dark-short" onclick="location.href = '/cocktailinfo/detail/{{ cocktail.cocktail_idx }}';">칵테일 정보보기</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

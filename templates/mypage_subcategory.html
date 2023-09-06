@@ -1,0 +1,13 @@
+<div id="mypage_subcategory" class="mt-2">
+    {% for categorykey, category in mypage_subcategories.items %}
+    {% if categorykey == category_current %}
+    <div class="mypage-subcategory-item category-current">
+        <a href="{{ category.url }}">{{ category.name }}</a>
+    </div>
+    {% else %}
+    <div class="mypage-subcategory-item">
+        <a href="{{ category.url }}">{{ category.name }}</a>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>

@@ -1,0 +1,36 @@
+<div class="nectarist-paging">
+    <!-- 처음 페이지 -->
+    {% if page_data.number != 1 %}
+    <button class="nectarist-paging-button" onclick="location.href = '/{{ category_current }}/?page=1';"><i class="fa fa-angles-left"></i></button>
+    {% else %}
+    <button class="nectarist-paging-button disabled"><i class="fa fa-angles-left"></i></button>
+    {% endif %}
+    <!-- 이전 페이지 -->
+    {% if page_data.has_previous %}
+    <button class="nectarist-paging-button" onclick="location.href = '/{{ category_current }}/?page={{ page_data.previous_page_number }}';"><i class="fa fa-angle-left"></i></button>
+    {% else %}
+    <button class="nectarist-paging-button disabled"><i class="fa fa-angle-left"></i></button>
+    {% endif %}
+    <!-- 숫자 페이지 -->
+    {% for page in page_data.paginator.page_range %}
+        {% if page >= page_data.number|add:-3 and page <= page_data.number|add:3 %}
+            {% if page == page_data.number %}
+            <button class="nectarist-paging-button active" onclick="location.href = '/{{ category_current }}/?page={{ page }}';">{{ page }}</button>
+            {% else %}
+            <button class="nectarist-paging-button" onclick="location.href = '/{{ category_current }}/?page={{ page }}';">{{ page }}</button>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    <!-- 다음 페이지 -->
+    {% if page_data.has_next %}
+    <button class="nectarist-paging-button" onclick="location.href = '/{{ category_current }}/?page={{ page_data.next_page_number }}';"><i class="fa fa-angle-right"></i></button>
+    {% else %}
+    <button class="nectarist-paging-button disabled"><i class="fa fa-angle-right"></i></button>
+    {% endif %}
+    <!-- 마지막 페이지 -->
+    {% if page_data.number != last_page and last_page != 0 %}
+    <button class="nectarist-paging-button" onclick="location.href = '/{{ category_current }}/?page={{ last_page }}';"><i class="fa fa-angles-right"></i></button>
+    {% else %}
+    <button class="nectarist-paging-button disabled"><i class="fa fa-angles-right"></i></button>
+    {% endif %}
+</div>
