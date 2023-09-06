@@ -19,4 +19,4 @@
 &nbsp;&nbsp;🔸[Project Nectarist \[02\] 메뉴와 화면기획](https://lizzyleedev.github.io/project/20230828/project_00002)<br>
 &nbsp;&nbsp;🔸[Project Nectarist \[03\] 테이블 설계](https://lizzyleedev.github.io/project/20230830/project_00003)<br>
 &nbsp;&nbsp;🔸[Project Nectarist \[04\] Docker를 이용한 개발환경](https://lizzyleedev.github.io/project/20230830/project_00004)<br>
-&nbsp;&nbsp;🔸[Project Nectarist \[05\] Django를 이용한 개발](https://lizzyleedev.github.io/project/20230831/project_0000)<br>
+&nbsp;&nbsp;🔸[Project Nectarist \[05\] Django를 이용한 개발](https://lizzyleedev.github.io/project/20230831/project_00005)<br>
