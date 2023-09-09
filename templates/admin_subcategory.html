@@ -1,0 +1,13 @@
+<div id="admin_subcategory" class="mt-2">
+    {% for categorykey, category in admin_subcategories.items %}
+    {% if categorykey == category_current %}
+    <div class="admin-subcategory-item category-current">
+        <a href="{{ category.url }}">{{ category.name }}</a>
+    </div>
+    {% else %}
+    <div class="admin-subcategory-item">
+        <a href="{{ category.url }}">{{ category.name }}</a>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>

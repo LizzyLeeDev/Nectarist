@@ -21,15 +21,15 @@ categories = {
     },
     'community': {
         'name': '커뮤니티', 
-        'url': '/community?page=1'
+        'url': '/community/?page=1'
     },
     'column': {
         'name': '칼럼', 
-        'url': '/column?page=1'
+        'url': '/column/?page=1'
     },
     'notice': {
         'name': '공지사항', 
-        'url': '/notice?page=1'
+        'url': '/notice/?page=1'
     },
 }
 mypage_subcategories = {
@@ -42,12 +42,23 @@ mypage_subcategories = {
         'url': '/mypage_myrefrig/'
     },
 }
+admin_subcategories = {
+    'setmain': {
+        'name': '메인화면 설정',
+        'url': '/admin_setmain/?page=1'
+    },
+    'addaboard': {
+        'name': '관리자 게시글 등록',
+        'url': '/admin_addaboard/'
+    },
+}
 
 # 공통 변수 추가
 def add_global_context(request):
     context = {}
     context.update({"categories": categories})
     context.update({"mypage_subcategories": mypage_subcategories})
+    context.update({"admin_subcategories": admin_subcategories})
     
     if 'is_login' in request.session and request.session['is_login'] == 'Y':
         context.update({'is_login': 'Y'})
@@ -60,8 +71,32 @@ def add_global_context(request):
 
 # url-page 연결
 def page_main(request):
+    # menu info
     context = add_global_context(request)
     context.update({"category_current": "main"})
+
+    # main carousel
+    carousel_list = NtBoard.objects.order_by('-nt_board_idx').filter(nt_board_main_yn='Y')
+    context.update({"carousel_list": carousel_list})
+
+    # column list
+    column_list = NtBoard.objects.order_by('-nt_board_idx').filter(nt_board_type='02')
+    column_paginator = Paginator(column_list, 5)
+    column_page_data = column_paginator.get_page(1)
+    context.update({"column_list": column_page_data})
+
+    # community list
+    community_list = NtBoard.objects.order_by('-nt_board_idx').filter(nt_board_type='03')
+    community_paginator = Paginator(community_list, 5)
+    community_page_data = community_paginator.get_page(1)
+    context.update({"community_list": community_page_data})
+
+    # cocktail list
+    cocktail_list = NtCocktail.objects.order_by('-nt_cocktail_idx')
+    cocktail_paginator = Paginator(cocktail_list, 4)
+    cocktail_page_data = cocktail_paginator.get_page(1)
+    context.update({"cocktail_list": cocktail_page_data})
+
     return render(request, 'sites/main.html', context)
 
 def page_cocktailinfo(request):
@@ -239,7 +274,7 @@ def page_community_detail(request, bno):
     context.update({"detail_data": detail_data})
 
     # cocktail comment data
-    comment_data = NtBoardComment.objects.select_related('nt_user_idx_fk').filter(nt_board_comment_idx=bno)
+    comment_data = NtBoardComment.objects.select_related('nt_user_idx_fk').filter(nt_board_idx_fk=bno)
     context.update({"comment_data": comment_data})
 
     return render(request, 'sites/board_detail.html', context)
@@ -283,7 +318,7 @@ def page_column_detail(request, bno):
     context.update({"detail_data": detail_data})
 
     # cocktail comment data
-    comment_data = NtBoardComment.objects.select_related('nt_user_idx_fk').filter(nt_board_comment_idx=bno)
+    comment_data = NtBoardComment.objects.select_related('nt_user_idx_fk').filter(nt_board_idx_fk=bno)
     context.update({"comment_data": comment_data})
 
     return render(request, 'sites/board_detail.html', context)
@@ -327,7 +362,7 @@ def page_notice_detail(request, bno):
     context.update({"detail_data": detail_data})
 
     # cocktail comment data
-    comment_data = NtBoardComment.objects.select_related('nt_user_idx_fk').filter(nt_board_comment_idx=bno)
+    comment_data = NtBoardComment.objects.select_related('nt_user_idx_fk').filter(nt_board_idx_fk=bno)
     context.update({"comment_data": comment_data})
 
     return render(request, 'sites/board_detail.html', context)
@@ -359,6 +394,31 @@ def page_mypage_myrefrig(request):
 
     context.update({"category_current": "myrefrig"})
     return render(request, 'sites/mypage_myrefrig.html', context)
+
+def page_admin_setmain(request):
+    context = add_global_context(request)
+
+    # menu info
+    context.update({"category_current": "setmain"})
+
+    # menu list data
+    list_data = NtBoard.objects.order_by('-nt_board_idx').filter(nt_board_type__in=['01','02'])
+    context.update({"list_data": list_data})
+    
+    # menu list paging
+    page = request.GET.get('page')
+    paginator = Paginator(list_data, 10)
+    page_data = paginator.get_page(page)
+    last_page = math.ceil(paginator.count / paginator.per_page)
+    context.update({"last_page": last_page})
+    context.update({"page_data": page_data})
+
+    return render(request, 'sites/admin_setmain.html', context)
+
+def page_admin_addaboard(request):
+    context = add_global_context(request)
+    context.update({"category_current": "addaboard"})
+    return render(request, 'sites/admin_addaboard.html', context)
 
 # 기능
 def func_duplicate_id(request):
@@ -481,6 +541,7 @@ def func_add_board_comment(request):
     ret = {"add_comment_result": "Y"}
     return JsonResponse(ret)
 
+@csrf_exempt
 def func_save_refrig(request):
     selectedJoin = request.GET.get("selected")
     selected = selectedJoin.split(',')
@@ -506,4 +567,50 @@ def func_save_refrig(request):
                 new_useringrd = NtUserIngrdnt.objects.create(nt_user_idx_fk=user_obj, nt_ingrdnt_idx_fk=ingrd_obj, nt_user_ingrdnt_amt='', nt_user_ingrdnt_unit='')
 
     ret = {"save_refrig_result": "Y"}
+    return JsonResponse(ret)
+
+def func_save_setmain(request):
+    selectedJoin = request.GET.get("selected")
+    selected = selectedJoin.split(',')
+    deletedJoin = request.GET.get("deleted")
+    deleted = deletedJoin.split(',')
+
+    if deletedJoin != '':
+        for bno in deleted:
+            try:
+                board_obj = NtBoard.objects.get(nt_board_idx=int(bno))
+                board_obj.nt_board_main_yn = 'N'
+                board_obj.save()
+            except:
+                pass
+
+    if selectedJoin != '':
+        for bno in selected:
+            try:
+                board_obj = NtBoard.objects.get(nt_board_idx=int(bno))
+                board_obj.nt_board_main_yn = 'Y'
+                board_obj.save()
+            except:
+                pass
+
+    ret = {"save_setmain_result": "Y"}
+    return JsonResponse(ret)
+
+def func_add_aboard(request):
+    user = request.session['login_id']
+    user_obj = NtUser.objects.get(nt_user_idx=user)
+    
+    new_aboard = NtBoard()
+    new_aboard.nt_board_type = request.POST.get("boardType")
+    new_aboard.nt_board_subject = request.POST.get("title")
+    new_aboard.nt_board_contents = request.POST.get("text")
+    new_aboard.nt_board_cocktail = request.POST.get("tag")
+    new_aboard.nt_board_thumbnail = request.FILES['thumbnail']
+    new_aboard.nt_board_dt = datetime.now()
+    new_aboard.nt_board_main_yn = 'N'
+    new_aboard.nt_board_delete_yn = 'N'
+    new_aboard.nt_user_idx_fk = user_obj
+    new_aboard.save()
+
+    ret = {"add_board_result": "Y"}
     return JsonResponse(ret)

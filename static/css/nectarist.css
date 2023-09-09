@@ -61,8 +61,8 @@
     }
     .nectarist-miniboard ul li {
         padding: 0.25rem 0.5rem;
-        border-top: 1px dashed #bbb6b6;
-        margin-top: -1px;
+        border-bottom: 1px dashed #bbb6b6;
+        margin-bottom: -1px;
         cursor: pointer;
     }
     .nectarist-miniboard ul li:hover {
@@ -374,6 +374,20 @@
         color: #424246;
         font-size: 1.4rem;
         font-weight: 600;
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * admin : 관리자페이지에서 사용할 스타일
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    #admin_subcategory {
+        display: flex;
+    }
+    #admin_subcategory .admin-subcategory-item {
+        color: #bbb6b6;
+        padding: 0.25rem 0.75rem;
+    }
+    #admin_subcategory .admin-subcategory-item.category-current {
+        background-color: #d4d9dd;
+        color: black;
     }
 /* = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * refrig : 냉장고에서 사용할 스타일

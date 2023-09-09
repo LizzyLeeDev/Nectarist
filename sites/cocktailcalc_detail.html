@@ -25,6 +25,11 @@
                 </div>
             </div>
             {% endfor %}
+            {% if all_complete_cocktail|length == 0 %}
+            <div class="text-center text-warning" style="font-size: 1.4rem;">
+                <i class="fa fa-exclamation-triangle"></i> 만들 수 있는 칵테일이 없습니다.
+            </div>
+            {% endif %}
         </div>
         <div class="nectarist-subcategory-title mt-3">한가지만 더 있으면 만들 수 있는 칵테일</div>
         <div class="nectarist-calc-container mt-2">
@@ -44,6 +49,11 @@
                 </div>
             </div>
             {% endfor %}
+            {% if sub_complete_cocktail|length == 0 %}
+            <div class="text-center text-warning" style="font-size: 1.4rem;">
+                <i class="fa fa-exclamation-triangle"></i> 만들 수 있는 칵테일이 없습니다.
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

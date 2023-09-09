@@ -14,7 +14,7 @@ class NtBoard(models.Model):
     nt_board_subject = models.CharField(db_column='NT_BOARD_SUBJECT', max_length=100, blank=True, null=True)  # Field name made lowercase.
     nt_board_contents = models.TextField(db_column='NT_BOARD_CONTENTS', blank=True, null=True)  # Field name made lowercase.
     nt_board_cocktail = models.CharField(db_column='NT_BOARD_COCKTAIL', max_length=100, blank=True, null=True)  # Field name made lowercase.
-    nt_board_thumbnail = models.CharField(db_column='NT_BOARD_THUMBNAIL', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    nt_board_thumbnail = models.FileField(db_column='NT_BOARD_THUMBNAIL', upload_to='column_thumbnail/', blank=True, null=True)  # Field name made lowercase.
     nt_board_dt = models.DateTimeField(db_column='NT_BOARD_DT', blank=True, null=True)  # Field name made lowercase.
     nt_board_main_yn = models.CharField(db_column='NT_BOARD_MAIN_YN', max_length=1, blank=True, null=True)  # Field name made lowercase.
     nt_board_delete_yn = models.CharField(db_column='NT_BOARD_DELETE_YN', max_length=1, blank=True, null=True)  # Field name made lowercase.

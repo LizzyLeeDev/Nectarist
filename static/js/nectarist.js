@@ -26,6 +26,12 @@ function select2resize() {
     $(".select2-dropdown").parent().height($(".select2-dropdown").height() + 2);
 }
 
+// 툴팁
+$("[data-bs-toggle='tooltip']").each(function (idx, obj) {
+    new bootstrap.Tooltip(obj)
+});
+
+
 /* = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * 회원가입 
  * = = = = = = = = = = = = = = = = = = = = = = = = = = */
@@ -46,6 +52,7 @@ function select2resize() {
                 success: function (result) {
                     if(result.is_duplicate == "N") {
                         $("#nectarist_form_signup_id").attr("data-valid", "Y");
+                        $("#nectarist_form_signup_id").removeClass("invalid-input");
                         $("#nectarist_form_okid").removeClass("d-none");
                     }
                     else {
@@ -64,7 +71,7 @@ function select2resize() {
         var inputpw = $("#nectarist_form_signup_pw").val();
         
         $(".nectarist_form_pw_result").addClass("d-none");
-        $("#nectarist_form_signup_id").attr("data-valid", "N");
+        $("#nectarist_form_signup_pw").attr("data-valid", "N");
         $("#nectarist_form_signup_pw").removeClass("invalid-input");
 
         if(/^[a-z0-9!@#$%^&*]*$/.test(inputpw) && inputpw.length >= 10 && inputpw.length <= 20) {
@@ -110,6 +117,7 @@ function select2resize() {
                 success: function (result) {
                     if(result.is_duplicate == "N") {
                         $("#nectarist_form_signup_name").attr("data-valid", "Y");
+                        $("#nectarist_form_signup_name").removeClass("invalid-input");
                         $("#nectarist_form_okname").removeClass("d-none");
                     }
                     else {
@@ -199,6 +207,10 @@ function select2resize() {
 /* = = = = = = = = = = = = = = = = = = = = = = = = = = =
  * 로그인 
  * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    $("#nectarist_signin_pw").on("keyup", function (e) {
+        if(e.keyCode == 13) req_signin();
+    });
+    
     // 로그인
     function req_signin() {
         var signInData = {
@@ -303,8 +315,13 @@ function select2resize() {
         var addBoardData = {
             "type": boardType,
             "title": $("#nectarist_form_title").val(),
-            "text": CKEDITOR.instances.nectarist_form_text.getData(),
-            "tag": $(".nectarist-form-select").val().join(',')
+            "text": CKEDITOR.instances.nectarist_form_text.getData()
+        }
+        if($(".nectarist-form-select").val() != null){
+            addBoardData["tag"] = $(".nectarist-form-select").val().join(',');
+        }
+        else {
+            addBoardData["tag"] = '';
         }
         $.ajax({
             url: "/req_add_board",
@@ -412,29 +429,116 @@ function select2resize() {
         $("#nectarist_refrig_container .nectarist-ingrd-item").each(function (idx, obj) {
             selectedIngrd.push($(obj).attr("data-ingno"));
         });
-        // 체크된 경우 저장
-        if($("#nectarist_refrig_savechk").prop("checked")){
-            var saveRefrigData = {
-                "selected": selectedIngrd.join(','),
-                "deleted": deleteIngrd.join(',')
-            }
-            $.ajax({
-                url: "/req_save_refrig",
-                data: saveRefrigData,
-                dataType: "json",
-                success: function (result) {
-                    if(result.save_refrig_result != "Y"){
-                        swal({
-                            title: "냉장고 저장 실패",
-                            text: "잘못된 접근입니다.",
-                            icon: "warning"
-                        });
-                    }
-                }
-            })
-
+        // 없는 경우
+        if(selectedIngrd.length == 0) {
+            swal({
+                text: "재료를 1개 이상 선택해주세요.",
+                icon: "warning"
+            });
         }
-        // 계산 정보와 함께 이동(POST)
-        $("#nectarist_refrig_form").find("input").val(selectedIngrd.join(','));
-        $("#nectarist_refrig_form").submit();
+        else {
+            // 체크된 경우 저장
+            if($("#nectarist_refrig_savechk").prop("checked")){
+                var saveRefrigData = {
+                    "selected": selectedIngrd.join(','),
+                    "deleted": deleteIngrd.join(',')
+                }
+                $.ajax({
+                    url: "/req_save_refrig",
+                    data: saveRefrigData,
+                    dataType: "json",
+                    success: function (result) {
+                        if(result.save_refrig_result != "Y"){
+                            swal({
+                                title: "냉장고 저장 실패",
+                                text: "잘못된 접근입니다.",
+                                icon: "warning"
+                            });
+                        }
+                    }
+                })
+    
+            }
+            // 계산 정보와 함께 이동(POST)
+            $("#nectarist_refrig_form").find("input").val(selectedIngrd.join(','));
+            $("#nectarist_refrig_form").submit();
+        }
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * 관리자
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    // 메인화면 해제 저장용
+    var deleteMainBoard = [];
+    $(function () {
+        $(".nectarist-board .nectarist-board-check").on("click", function (e) {
+            e.stopPropagation();
+            if(!$(this).prop("checked")){
+                deleteMainBoard.push($(this).attr("data-bno"));
+            }
+        });
+    });
+    // 메인화면 저장
+    function req_setmain_save(){
+        var selectedMainBoard = [];
+        $(".nectarist-board .nectarist-board-check").each(function (idx, obj) {
+            if($(obj).prop("checked")){
+                selectedMainBoard.push($(obj).attr("data-bno"));
+            }            
+        });
+        var saveSetmainData = {
+            "selected": selectedMainBoard.join(','),
+            "deleted": deleteMainBoard.join(',')
+        }
+        $.ajax({
+            url: "/req_save_setmain",
+            data: saveSetmainData,
+            dataType: "json",
+            success: function (result) {
+                if(result.save_setmain_result == "Y"){
+                    location.reload();
+                }
+                else {
+                    swal({
+                        title: "메인화면 설정 실패",
+                        text: "잘못된 접근입니다.",
+                        icon: "warning"
+                    });
+                }
+            }
+        })
+    }
+    // 관리자 게시글 추가
+    function req_aboard_new(){
+        var aboardData = new FormData();
+        aboardData.append("title", $("#nectarist_form_title").val());
+        aboardData.append("text", CKEDITOR.instances.nectarist_form_text.getData());
+        aboardData.append("boardType", $("#nectarist_form_type").val());
+        aboardData.append("thumbnail", $("#nectarist_form_image")[0].files[0]);
+        aboardData.append("csrfmiddlewaretoken", $("#nectarist_csrf_token").find("input")[0].value);
+        if(typeof $("#nectarist-form-select").val() != "undefined") {
+            aboardData.append("tag", $("#nectarist_form_type").val().join(','));
+        }
+        else {
+            aboardData.append("tag", '');
+        }
+        $.ajax({
+            type: 'post',
+            url: "/req_add_aboard/",
+            data: aboardData,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                if(result.add_board_result == "Y"){
+                    location.reload();
+                }
+                else {
+                    swal({
+                        title: "게시글 추가 실패",
+                        text: "잘못된 접근입니다.",
+                        icon: "warning"
+                    });
+                }
+            }
+        });
     }

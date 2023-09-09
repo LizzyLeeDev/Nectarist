@@ -24,6 +24,11 @@
                     <li class="navbar-item">
                         <a href="/mypage_myinfo/">마이페이지</a>
                     </li>
+                    {% if login_data.nt_user_admin_yn == 'Y' %}
+                    <li class="navbar-item">
+                        <a href="/admin_setmain/">관리자페이지</a>
+                    </li>
+                    {% endif %}
                     {% endif %}
                 </ul>
             </div>

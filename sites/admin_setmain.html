@@ -1,0 +1,60 @@
+{% extends 'templates/layout.html' %}
+{% block content %}
+<div class="px-3 pt-3 pb-4">
+    <div class="menu-title pb-0">
+        <span class="menu-name"><i class="fa fa-chevron-right" style="margin-bottom: 2px;"></i> 관리자 페이지</span>
+        {% include 'templates/admin_subcategory.html' %}
+    </div>
+    <div>
+        <div class="nectarist-board">
+            {% for board in page_data %}
+            {% if board.nt_board_type == '01' %}
+            <div class="nectarist-board-item d-block d-lg-flex" onclick="location.href = '/notice/detail/{{ board.nt_board_idx }}';">
+            {% else %}
+            <div class="nectarist-board-item d-block d-lg-flex" onclick="location.href = '/column/detail/{{ board.nt_board_idx }}';">
+            {% endif %}
+                <div class="text-center">
+                    {% if board.nt_board_main_yn == 'Y' %}
+                    <input type="checkbox" class="nectarist-board-check" data-bno="{{ board.nt_board_idx }}" checked/>
+                    {% else %}
+                    <input type="checkbox" class="nectarist-board-check" data-bno="{{ board.nt_board_idx }}"/>
+                    {% endif %}
+                </div>
+                <div class="nectarist-board-type">
+                    {% if board.nt_board_type == '01' %}
+                    <div class="text-center font-weight-bold" style="min-width: 80px;">공지사항</div>
+                    {% else %}
+                    <div class="text-center font-weight-bold text-success" style="min-width: 80px;">칼럼</div>
+                    {% endif %}
+                </div>
+                <div class="nectarist-board-title">
+                    {{ board.nt_board_subject }}
+                    <!--span class="nectarist-board-count">[2]</span-->
+                </div>
+                <div class="nectarist-board-user">{{ board.nt_user_idx_fk.nt_user_nickname }}</div>
+                <div class="nectarist-board-time">{{ board.nt_board_dt|date:'Y-m-d H:i:s' }}</div>
+            </div>
+            {% endfor %}
+            {% if page_data.paginator.count == 0 %}
+            <div class="nectarist-board-item d-block d-lg-flex">
+                <div class="nectarist-board-empty">
+                    등록된 글이 없습니다.
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="mt-3">
+        {% include 'templates/paging.html' %}
+    </div>
+    <div class="mt-3">
+        <div class="nectarist-search">
+            <input type="text">
+            <button><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+    <div class="mt-3 text-center">
+        <button class="nectarist-button-dark-short btn" onclick="req_setmain_save();">저장</button>
+    </div>
+</div>
+{% endblock %}

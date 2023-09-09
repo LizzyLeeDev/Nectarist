@@ -19,8 +19,11 @@ urlpatterns = [
     path("notice/detail/<int:bno>/", views.page_notice_detail, name="notice_detail"),
     path("sign_up/", views.page_sign_up, name="sign_up"),
     path("sign_in/", views.page_sign_in, name="sign_up"),
+
     path("mypage_myinfo/", views.page_mypage_myinfo, name="myinfo"),
     path("mypage_myrefrig/", views.page_mypage_myrefrig, name="myrefrig"),
+    path("admin_setmain/", views.page_admin_setmain, name="setmain"),
+    path("admin_addaboard/", views.page_admin_addaboard, name="addaboard"),
 
     path("sign_up/req_duplicate_id/", views.func_duplicate_id, name="func_duplicate_id"),
     path("sign_up/req_duplicate_name/", views.func_duplicate_name, name="func_duplicate_name"),
@@ -32,4 +35,6 @@ urlpatterns = [
     path("req_add_board_comment/", views.func_add_board_comment, name="func_add_board_comment"),
     path("req_add_board/", views.func_add_board, name="func_add_board"),
     path("req_save_refrig/", views.func_save_refrig, name="func_save_refrig"),
+    path("req_add_aboard/", views.func_add_aboard, name="func_add_aboard"),
+    path("req_save_setmain/", views.func_save_setmain, name="func_save_setmain"),
 ]

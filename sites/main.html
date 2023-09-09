@@ -6,20 +6,24 @@
         <div class="pl-3 pr-3 pr-lg-0 pt-4">
             <div id="main_carousel" class="carousel slide">
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#main_carousel" data-bs-slide-to="0" class="active"></button>
-                    <button type="button" data-bs-target="#main_carousel" data-bs-slide-to="1"></button>
-                    <button type="button" data-bs-target="#main_carousel" data-bs-slide-to="2"></button>
+                    {% for carousel_item in carousel_list %}
+                        {% if forloop.counter0 == 0 %}
+                        <button type="button" data-bs-target="#main_carousel" data-bs-slide-to="0" class="active"></button>
+                        {% else %}
+                        <button type="button" data-bs-target="#main_carousel" data-bs-slide-to="{{ forloop.counter0 }}"></button>
+                        {% endif %}
+                    {% endfor %}
                 </div>
                 <div class="carousel-inner">
+                    {% for carousel_item in carousel_list %}
                     <div class="carousel-item active">
-                        <img src="{% static 'img/test1.jpg' %}" class="d-block w-100">
+                        {% if carousel_item.nt_board_type == '01' %}
+                        <img src="/static/img/{{ carousel_item.nt_board_thumbnail }}" onclick="location.href = '/notice/detail/{{ carousel_item.nt_board_idx }}';" style="cursor: pointer;" class="d-block w-100">
+                        {% else %}
+                        <img src="/static/img/{{ carousel_item.nt_board_thumbnail }}" onclick="location.href = '/column/detail/{{ carousel_item.nt_board_idx }}';" style="cursor: pointer;" class="d-block w-100">
+                        {% endif %}
                     </div>
-                    <div class="carousel-item">
-                        <img src="{% static 'img/test2.jpg' %}" class="d-block w-100">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{% static 'img/test3.jpg' %}" class="d-block w-100">
-                    </div>
+                    {% endfor %}
                 </div>
                 <button class="carousel-button carousel-control-prev" type="button" data-bs-target="#main_carousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
@@ -44,19 +48,31 @@
                     <button class="nectarist-login-option btn btn-block" onclick="location.href = '/mypage_myinfo/';">
                         <i class="fa fa-angle-right mr-2"></i>마이페이지
                     </button>
-                    <button class="nectarist-login-option btn btn-block"><i class="fa fa-angle-right mr-2"></i>내 냉장고</button>
+                    <button class="nectarist-login-option btn btn-block" onclick="location.href = '/mypage_myrefrig/';">
+                        <i class="fa fa-angle-right mr-2"></i>내 냉장고
+                    </button>
                     {% if login_data.nt_user_admin_yn == 'Y' %}
-                    <button class="nectarist-login-option btn btn-block"><i class="fa fa-angle-right mr-2"></i>관리자 페이지</button>
+                    <button class="nectarist-login-option btn btn-block" onclick="location.href = '/admin_setmain/?page=1';">
+                        <i class="fa fa-angle-right mr-2"></i>관리자 페이지
+                    </button>
                     {% endif %}
-                    <button class="nectarist-button-white-short btn btn-block" onclick="req_signout();">로그아웃</button>
+                    <button class="nectarist-button-white-short btn btn-block" onclick="req_signout();">
+                        로그아웃
+                    </button>
                     {% else %}
-                    <button class="nectarist-login-button btn btn-block" onclick="location.href = '/sign_in/';">로그인</button>
+                    <button class="nectarist-login-button btn btn-block" onclick="location.href = '/sign_in/';">
+                        로그인
+                    </button>
                     <hr style="border: 1px dashed #bbb6b6;">
                     <button class="nectarist-login-option btn btn-block" onclick="location.href = '/sign_up/';">
                         <i class="fa fa-angle-right mr-2"></i>회원가입
                     </button>
-                    <button class="nectarist-login-option btn btn-block"><i class="fa fa-angle-right mr-2"></i>아이디 찾기</button>
-                    <button class="nectarist-login-option btn btn-block"><i class="fa fa-angle-right mr-2"></i>비밀번호 찾기</button>
+                    <button class="nectarist-login-option btn btn-block" data-bs-toggle="tooltip" data-bs-title="구현중" style="cursor: not-allowed;">
+                        <i class="fa fa-angle-right mr-2"></i>아이디 찾기
+                    </button>
+                    <button class="nectarist-login-option btn btn-block" data-bs-toggle="tooltip" data-bs-title="구현중" style="cursor: not-allowed;">
+                        <i class="fa fa-angle-right mr-2"></i>비밀번호 찾기
+                    </button>
                     {% endif %}
                 </div>
             </div>
@@ -67,13 +83,11 @@
             <div class="nectarist-subject">
                 <div class="nectarist-subject-title">칼럼</div>
             </div>
-            <div class="nectarist-miniboard" style="margin-top: -2px;">
+            <div class="nectarist-miniboard" style="margin-top: -2px; min-height: 188px;">
                 <ul>
-                    <li>한국의 칵테일 - 동해</li>
-                    <li>칵테일의 왕 마티니</li>
-                    <li>맛없는 와인을 칵테일로 만드는 방법</li>
-                    <li>니콜라시카 (Nikolaschka)</li>
-                    <li>오버프루프 럼이란?</li>
+                    {% for column in column_list %}
+                    <li onclick="location.href = '/column/detail/{{ column.nt_board_idx }}';">{{ column.nt_board_subject }}</li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
@@ -83,13 +97,11 @@
             <div class="nectarist-subject">
                 <div class="nectarist-subject-title">커뮤니티</div>
             </div>
-            <div class="nectarist-miniboard" style="margin-top: -2px;">
+            <div class="nectarist-miniboard" style="margin-top: -2px; min-height: 188px;">
                 <ul>
-                    <li>서울대입구역 바 추천</li>
-                    <li>오늘도 술 마시네요ㅋㅋ</li>
-                    <li>일번가에서 바 가보신 분?</li>
-                    <li>바카디 151 단종되면 뭐 넣나요?</li>
-                    <li>당곡역 전통주 바 후기</li>
+                    {% for community in community_list %}
+                    <li onclick="location.href = '/community/detail/{{ community.nt_board_idx }}';">{{ community.nt_board_subject }}</li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
@@ -101,30 +113,14 @@
             </div>
             <div>
                 <div class="row">
+                    {% for cocktail in cocktail_list %}
                     <div class="col-6 col-lg-3">
-                        <div class="nectarist-gallery-item">
-                            <img src="{% static 'img/manhattan.jpeg' %}">
-                            <div class="nectarist-gallery-title">맨하탄</div>
+                        <div class="nectarist-gallery-item" onclick="location.href = '/cocktailinfo/detail/{{ cocktail.nt_cocktail_idx }}';">
+                            <img src="{% static cocktail.nt_cocktail_thumbnail %}">
+                            <div class="nectarist-gallery-title">{{ cocktail.nt_cocktail_nm }}</div>
                         </div>
                     </div>
-                    <div class="col-6 col-lg-3">
-                        <div class="nectarist-gallery-item">
-                            <img src="{% static 'img/mojito.jpeg' %}">
-                            <div class="nectarist-gallery-title">모히토</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-3">
-                        <div class="nectarist-gallery-item">
-                            <img src="{% static 'img/matini.jpeg' %}">
-                            <div class="nectarist-gallery-title">마티니</div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-lg-3">
-                        <div class="nectarist-gallery-item">
-                            <img src="{% static 'img/test2.jpg' %}">
-                            <div class="nectarist-gallery-title">안경</div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
