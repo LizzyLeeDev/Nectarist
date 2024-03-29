@@ -111,7 +111,7 @@ $("[data-bs-toggle='tooltip']").each(function (idx, obj) {
 
         if(inputname.length >= 2 && inputname.length <= 10) {
             $.ajax({
-                url: "req_duplicate_name",
+                url: "/req_duplicate_name",
                 data: {"inputname": inputname},
                 dataType: "json",
                 success: function (result) {
@@ -199,6 +199,120 @@ $("[data-bs-toggle='tooltip']").each(function (idx, obj) {
                             text: "관리자 문의 바랍니다.",
                             icon: "warning"
                         });
+                    }
+                }
+            })
+        }
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * 아이디/비밀번호 찾기
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    // 아이디찾기-이메일 검사
+    $("#nectarist_form_findid_email").on("input", function () {
+        var inputidemail = $("#nectarist_form_findid_email").val();
+        
+        $(".nectarist_form_email_result").addClass("d-none");
+        $("#nectarist_form_findid_email").attr("data-valid", "N");
+        $("#nectarist_button_findid").addClass("disabled");
+
+        if(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/.test(inputidemail)) {
+            $("#nectarist_form_findid_email").attr("data-valid", "Y");
+            $("#nectarist_form_okemail").removeClass("d-none");
+            $("#nectarist_button_findid").removeClass("disabled");
+        }
+        else {
+            $("#nectarist_form_invalidemail").removeClass("d-none");
+        }
+    })
+
+    // 아이디찾기
+    function req_findid() {
+        if($("#nectarist_form_findid_email").attr("data-valid") == "Y"){
+            var inputemail = $("#nectarist_form_findid_email").val();
+            $.ajax({
+                url: "/find_id/search/",
+                data: {"inputemail": inputemail},
+                dataType: "json",
+                success: function (result) {
+                    $("#nectarist_form_findid_result").addClass("d-none");
+                    $("#nectarist_form_findid_result").removeClass("d-inline-block");
+                    $("#nectarist_form_findid_none").addClass("d-none");
+                    $("#nectarist_form_findid_none").removeClass("d-inline-block");
+
+                    if(result.is_id_exist == "Y"){
+                        $("#nectarist_form_findid_result").html("회원님의 아이디는 <span class='font-weight-bold text-danger'>**" + result.ret_id.substring(2) + "</span> 으로 등록되어있습니다.")
+                        $("#nectarist_form_findid_result").removeClass("d-none");
+                        $("#nectarist_form_findid_result").addClass("d-inline-block");
+                    }
+                    else {
+                        $("#nectarist_form_findid_none").removeClass("d-none");
+                        $("#nectarist_form_findid_none").addClass("d-inline-block");
+                    }
+                }
+            })
+        }
+    }
+
+    // 비밀번호찾기-아이디 검사
+    $("#nectarist_form_findpw_id").on("input", function () {
+        var inputpwid = $("#nectarist_form_findpw_id").val();
+
+        $("#nectarist_form_invalidid").addClass("d-none");
+        $("#nectarist_form_findpw_id").attr("data-valid", "N");
+        $("#nectarist_button_findpw").addClass("disabled");
+
+        if(/^[a-z0-9]*$/.test(inputpwid) && inputpwid.length >= 6 && inputpwid.length <= 12) {
+            $("#nectarist_form_findpw_id").attr("data-valid", "Y");
+            if($("#nectarist_form_findpw_email").attr("data-valid") == "Y") {
+                $("#nectarist_button_findpw").removeClass("disabled");
+            }
+        }
+        else {
+            $("#nectarist_form_invalidid").removeClass("d-none");
+        }
+    })
+
+    // 비밀번호찾기-이메일 검사
+    $("#nectarist_form_findpw_email").on("input", function () {
+        var inputidemail = $("#nectarist_form_findpw_email").val();
+        
+        $(".nectarist_form_email_result").addClass("d-none");
+        $("#nectarist_form_findpw_email").attr("data-valid", "N");
+        $("#nectarist_button_findpw").addClass("disabled");
+
+        if(/^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/.test(inputidemail)) {
+            $("#nectarist_form_findpw_email").attr("data-valid", "Y");
+            if($("#nectarist_form_findpw_id").attr("data-valid") == "Y") {
+                $("#nectarist_button_findpw").removeClass("disabled");
+            }
+        }
+        else {
+            $("#nectarist_form_invalidemail").removeClass("d-none");
+        }
+    })
+
+    // 비밀번호찾기
+    function req_findpw() {
+        if($("#nectarist_form_findpw_id").attr("data-valid") == "Y" && $("#nectarist_form_findpw_email").attr("data-valid") == "Y"){
+            var inputid = $("#nectarist_form_findpw_id").val();
+            var inputemail = $("#nectarist_form_findpw_email").val();
+            $.ajax({
+                url: "/find_pw/search/",
+                data: {"inputid": inputid, "inputemail": inputemail},
+                dataType: "json",
+                success: function (result) {
+                    $("#nectarist_form_findpw_none").addClass("d-none");
+                    $("#nectarist_form_findpw_none").removeClass("d-inline-block");
+                    $("#nectarist_form_findpw_result").addClass("d-none");
+                    $("#nectarist_form_findpw_result").removeClass("d-inline-block");
+
+                    if(result.is_id_exist == "Y"){
+                        $("#nectarist_form_findpw_result").removeClass("d-none");
+                        $("#nectarist_form_findpw_result").addClass("d-inline-block");
+                    }
+                    else {
+                        $("#nectarist_form_findpw_none").removeClass("d-none");
+                        $("#nectarist_form_findpw_none").addClass("d-inline-block");
                     }
                 }
             })
@@ -541,4 +655,49 @@ $("[data-bs-toggle='tooltip']").each(function (idx, obj) {
                 }
             }
         });
+    }
+/* = = = = = = = = = = = = = = = = = = = = = = = = = = =
+ * 마이페이지
+ * = = = = = = = = = = = = = = = = = = = = = = = = = = */
+    // 닉네임 변경
+    function req_mynickname(){
+        $(".invalid-input").removeClass("invalid-input");
+        
+        // 닉네임 변경 불가
+        if($("#nectarist_form_signup_name").attr("data-valid") == "N"){
+            $("#nectarist_form_signup_name").addClass("invalid-input");
+        }
+        // 닉네임 변경
+        else{
+            var nameData = {
+                "name": $("#nectarist_form_signup_name").val()
+            }
+            $.ajax({
+                url: "/req_namechange",
+                data: nameData,
+                dataType: "json",
+                success: function (result) {
+                    if(result.change_result == "Y"){
+                        swal({
+                            title: "닉네임 변경 완료",
+                            closeOnClickOutside: false,
+                            closeOnEsc: false,
+                            icon: "success",
+                            button: "확인",
+                        }).then((value) => {
+                            location.reload();
+                        });
+                    }
+                    else {
+                        swal({
+                            title: "닉네임 변경 실패",
+                            text: "관리자 문의 바랍니다.",
+                            icon: "warning"
+                        });
+                    }
+                }
+            })
+
+        }
+
     }

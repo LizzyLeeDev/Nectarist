@@ -26,6 +26,11 @@
             width: 100vw;
         }
     }
+    .nectarist-bg-lightgray-box {
+        background-color: lightgray;
+        border: 1px solid #AAA;
+        border-radius: .25rem;
+    }
     #nectarist_copyright {
         color: white;
         text-align: center;

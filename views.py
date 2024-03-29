@@ -1,6 +1,11 @@
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.utils.crypto import get_random_string
+from django.utils.html import strip_tags
+from django.template.loader import render_to_string
+from django.template import Template
+from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
@@ -376,6 +381,17 @@ def page_sign_in(request):
     context.update({"category_current": "sign_in"})
     return render(request, 'sites/sign_in.html', context)
 
+# 회원가입 및 마이페이지
+def find_id(request):
+    context = add_global_context(request)
+    context.update({"category_current": "find_id"})
+    return render(request, 'sites/find_id.html', context)
+
+def find_pw(request):
+    context = add_global_context(request)
+    context.update({"category_current": "find_pw"})
+    return render(request, 'sites/find_pw.html', context)
+
 def page_mypage_myinfo(request):
     context = add_global_context(request)
     context.update({"category_current": "myinfo"})
@@ -421,6 +437,17 @@ def page_admin_addaboard(request):
     return render(request, 'sites/admin_addaboard.html', context)
 
 # 기능
+def req_namechange(request):
+    name = request.GET.get("name")
+    user = request.session['login_id']
+    user_obj = NtUser.objects.get(nt_user_idx=user)
+
+    user_obj.nt_user_nickname = name
+    user_obj.save()
+
+    ret = {"change_result": "Y"}
+    return JsonResponse(ret)
+
 def func_duplicate_id(request):
     input_id = request.GET.get("inputid")
     is_duplicate = "N"
@@ -437,7 +464,7 @@ def func_duplicate_name(request):
     input_name = request.GET.get("inputname")
     is_duplicate = "N"
     try:
-        check_name = NtUser.objects.get(nt_user_name=input_name)
+        check_name = NtUser.objects.get(nt_user_nickname=input_name)
         if check_name is not None:
             is_duplicate = "Y"
     except:
@@ -485,6 +512,56 @@ def func_sign_in(request):
 def func_sign_out(request):
     request.session.flush()
     ret = {"sign_out_result": "Y"}
+    return JsonResponse(ret)
+
+def func_findid_search(request):
+    input_email = request.GET.get("inputemail")
+    is_id_exist = "N"
+    ret_id = ""
+
+    try:
+        find_user = NtUser.objects.get(nt_user_email=input_email)
+        if find_user is not None:
+            is_id_exist = "Y"
+            ret_id = find_user.nt_user_id
+    except:
+        is_id_exist = "N"
+
+    ret = {"is_id_exist": is_id_exist, "ret_id": ret_id}
+    return JsonResponse(ret)
+
+def func_findpw_search(request):
+    input_id = request.GET.get("inputid")
+    input_email = request.GET.get("inputemail")
+    is_id_exist = "N"
+
+    try:
+        find_user = NtUser.objects.get(nt_user_id=input_id, nt_user_email=input_email)
+        if find_user is not None:
+            is_id_exist = "Y"
+
+            new_temp_pass = get_random_string(length=10)
+            encrypted = hashlib.sha256(str(new_temp_pass).encode())
+            encrypted_hash = encrypted.hexdigest()
+
+            find_user.nt_user_pw = encrypted_hash
+            find_user.save()
+            
+            send_mail_subject = "[Nectarist] 임시 비밀번호 안내입니다."
+            send_mail_contents_html = render_to_string("templates/pw_email.html", {"new_temp_pass": new_temp_pass})
+            send_mail_contents_text = strip_tags(send_mail_contents_html)
+            
+            send_mail(
+                send_mail_subject,
+                send_mail_contents_text,
+                "settings.EMAIL_HOST_USER",
+                ["lizzy.lee.dev@gmail.com"],
+                fail_silently=True
+            )
+    except:
+        is_id_exist = "N"
+
+    ret = {"is_id_exist": is_id_exist}
     return JsonResponse(ret)
 
 def func_add_cocktail_comment(request):
