@@ -9,10 +9,12 @@
 <br>
 &nbsp;&nbsp;Django 및 Docker 학습을 위해 개발되었습니다.<br>
 <br>
-🌟사용기술:<br>
-<br>
-![stack](https://github.com/LizzyLeeDev/Nectarist/assets/142732410/394624af-6bda-489a-83fd-7ce6bc75fd0a)
+🌟사용기술:
 <br><br>
+
+![stack](https://github.com/LizzyLeeDev/Nectarist/assets/142732410/394624af-6bda-489a-83fd-7ce6bc75fd0a)
+
+
 🌟프로젝트 상세:<br>
 <br>
 &nbsp;&nbsp;🔶화면기획서<br>
