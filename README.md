@@ -11,16 +11,16 @@
 <br>
 🌟사용기술:<br>
 <br>
-![stack](https://github.com/LizzyLeeDev/Nectarist/assets/142732410/394624af-6bda-489a-83fd-7ce6bc75fd0a)<br>
-<br>
+![stack](https://github.com/LizzyLeeDev/Nectarist/assets/142732410/394624af-6bda-489a-83fd-7ce6bc75fd0a)
+<br><br>
 🌟프로젝트 상세:<br>
 <br>
 &nbsp;&nbsp;🔶화면기획서<br>
-![screen](https://github.com/LizzyLeeDev/Nectarist/assets/142732410/8ae86f52-1947-43e3-b30a-cf4bf9f7fd8b)<br>
-<br>
+![screen](https://github.com/LizzyLeeDev/Nectarist/assets/142732410/8ae86f52-1947-43e3-b30a-cf4bf9f7fd8b)
+<br><br>
 &nbsp;&nbsp;🔶ERD<br>
-![erd](https://github.com/LizzyLeeDev/Nectarist/assets/142732410/63c7f92a-603f-41a2-b53f-8e2826f988cb)<br>
-<br>
+![erd](https://github.com/LizzyLeeDev/Nectarist/assets/142732410/63c7f92a-603f-41a2-b53f-8e2826f988cb)
+<br><br>
 🌟제작과정:<br>
 <br>
 &nbsp;&nbsp;🔸[Project Nectarist \[01\] 프로젝트 계획,분석](https://lizzyleedev.github.io/project/20230827/project_00001)<br>
