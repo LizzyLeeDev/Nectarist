@@ -1,20 +1,30 @@
-# Nectarist<br>
-### 칵테일 커뮤니티 제작 사이드 프로젝트 [Django-uWSGI-Nginx]<br>
+# Nectarist
+### 칵테일 커뮤니티 제작 사이드 프로젝트 [Django-uWSGI-Nginx]
 <br>
-🛠️ 아직 개발 중 🛠️<br>
+🌟개요:<br>
 <br>
-🌟개발기간:
+&nbsp;&nbsp;자유롭게 이용할 수 있는 칵테일 관련 커뮤니티 사이트로,<br>
+&nbsp;&nbsp;사용자 마다 현재 자신이 가지고 있는 칵테일 재료를 저장하고<br>
+&nbsp;&nbsp;해당 재료를 통해 만들수 있는 칵테일을 계산할 수 있는 기능이 있습니다.<br>
+<br>
+&nbsp;&nbsp;Django 및 Docker 학습을 위해 개발되었습니다.<br>
+<br>
+🌟사용기술:
 <br><br>
-&nbsp;&nbsp;🔸23-08-28 ~ (중간점검)23-09-09 ~ <br>
+
+![stack](https://github.com/LizzyLeeDev/Nectarist/assets/142732410/394624af-6bda-489a-83fd-7ce6bc75fd0a)
+
+
+🌟프로젝트 상세:<br>
 <br>
-
-🌟현재 구글 클라우드에서 동작 중:
-
-&nbsp;&nbsp;🔸http://35.247.89.52/<br>
+&nbsp;&nbsp;🔶화면기획서<br>
+![screen](https://github.com/LizzyLeeDev/Nectarist/assets/142732410/8ae86f52-1947-43e3-b30a-cf4bf9f7fd8b)
+<br><br>
+&nbsp;&nbsp;🔶ERD<br>
+![erd](https://github.com/LizzyLeeDev/Nectarist/assets/142732410/63c7f92a-603f-41a2-b53f-8e2826f988cb)
+<br><br>
+🌟제작과정:<br>
 <br>
-
-🌟제작기:
-
 &nbsp;&nbsp;🔸[Project Nectarist \[01\] 프로젝트 계획,분석](https://lizzyleedev.github.io/project/20230827/project_00001)<br>
 &nbsp;&nbsp;🔸[Project Nectarist \[02\] 메뉴와 화면기획](https://lizzyleedev.github.io/project/20230828/project_00002)<br>
 &nbsp;&nbsp;🔸[Project Nectarist \[03\] 테이블 설계](https://lizzyleedev.github.io/project/20230830/project_00003)<br>
