@@ -9,7 +9,7 @@
     <div class="mt-3">
         <div class="row">
             <div class="col-12 col-lg-6">
-                <img src="{% static detail_data.nt_cocktail_thumbnail %}" style="width: 550px; aspect-ratio: 1 / 0.7;">
+                <img src="/static/img/{{ detail_data.nt_cocktail_thumbnail }}" style="width: 550px; aspect-ratio: 1 / 0.7;">
             </div>
             <div class="col-12 col-lg-6">
                 <div id="cocktail_title">
@@ -33,7 +33,7 @@
                     <i class="fa fa-angle-right mr-2"></i>비고
                 </div>
                 <div class="cocktail_attr_text">
-                    {% if detail_data.nt_cocktail_memo != None %}
+                    {% if detail_data.nt_cocktail_memo != None and detail_data.nt_cocktail_memo != "" %}
                     {{ detail_data.nt_cocktail_memo }}
                     {% else %}
                     없음
@@ -42,6 +42,12 @@
             </div>
         </div>
     </div>
+    {% if write_permission == 'Y' %}
+    <div class="text-right">
+        <button class="btn nectarist-button-white-short font-weight-bold text-success mt-3 mr-2" onclick="location.href = '/{{ category_current }}/mod/{{ cno }}';">수정</button>
+        <button class="btn nectarist-button-white-short font-weight-bold text-danger mt-3" onclick="req_cocktailinfo_del({{ cno }});">삭제</button>
+    </div>
+    {% endif %}
     <div class="mt-3">
         <div class="nectarist-comment-header">댓글</div>
         <div class="nectarist-comment">
@@ -50,6 +56,22 @@
                 <div class="nectarist-comment-user">{{ comment.nt_user_idx_fk.nt_user_nickname }}</div>
                 <div class="nectarist-comment-text">{{ comment.nt_cocktail_comment_text }}</div>
                 <div class="nectarist-comment-time">{{ comment.nt_cocktail_comment_dt|date:'Y-m-d H:i:s' }}</div>
+                <div class="nectarist-comment-button text-right" style="min-width: 110px;">
+                    {% if comment.nt_user_idx_fk.nt_user_idx == login_data.nt_user_idx or login_data.nt_user_admin_yn == 'Y' %}
+                    <button class="btn nectarist-button-white-short font-weight-bold text-success py-0 mr-2" style="min-width: auto;" onclick="req_comment_mod(this);">
+                        <i class="fa fa-edit" style="position: relative; top: 2px;"></i>
+                    </button>
+                    <button class="btn nectarist-button-white-short font-weight-bold text-danger py-0" style="min-width: auto;" onclick="req_cocktail_comment_del({{ comment.nt_cocktail_comment_idx }});">
+                        <i class="fa fa-trash-o" style="position: relative; top: 3px;"></i>
+                    </button>
+                    {% endif %}
+                </div>
+                {% if comment.nt_user_idx_fk.nt_user_idx == login_data.nt_user_idx or login_data.nt_user_admin_yn == 'Y' %}
+                <textarea id="nectarist_comment_mod_input" class="nectarist-comment-mod-input nectarist-comment-input d-none"></textarea>
+                <div class="nectarist-comment-mod-button d-none">
+                    <button class="btn" style="border: 0; background-color: #424246; color: white; width: -webkit-fill-available;" onclick="req_cocktail_comment_modsave(this, {{ comment.nt_cocktail_comment_idx }});">수정</button>
+                </div>
+                {% endif %}
             </div>
             {% endfor %}
             {% if comment_data.count == 0 %}
@@ -65,7 +87,7 @@
             <div class="nectarist-comment-user">{{ login_data.nt_user_nickname }}</div>
             <textarea id="nectarist_comment_input" class="nectarist-comment-input"></textarea>
             <div class="nectarist-comment-button">
-                <button class="btn" onclick="req_add_cocktail_comment({{ cno }});">등록</button>
+                <button class="btn" style="border: 0; background-color: #424246; color: white; width: -webkit-fill-available;" onclick="req_add_cocktail_comment({{ cno }});">등록</button>
             </div>
         </div>
         {% endif %}

@@ -1,5 +1,6 @@
 {% extends 'templates/layout.html' %}
 {% load static %}
+{% load nectarist_filters %}
 {% block content %}
 <div class="row">
     <div class="col-12 col-lg-9">
@@ -16,13 +17,30 @@
                 </div>
                 <div class="carousel-inner">
                     {% for carousel_item in carousel_list %}
-                    <div class="carousel-item active">
+                        <!-- 게시판 종류 -->
                         {% if carousel_item.nt_board_type == '01' %}
-                        <img src="/static/img/{{ carousel_item.nt_board_thumbnail }}" onclick="location.href = '/notice/detail/{{ carousel_item.nt_board_idx }}';" style="cursor: pointer;" class="d-block w-100">
-                        {% else %}
-                        <img src="/static/img/{{ carousel_item.nt_board_thumbnail }}" onclick="location.href = '/column/detail/{{ carousel_item.nt_board_idx }}';" style="cursor: pointer;" class="d-block w-100">
+                            {% define "notice" as boardname %}
+                        {% elif carousel_item.nt_board_type == '02' %}
+                            {% define "column" as boardname %}
                         {% endif %}
-                    </div>
+                        <!-- for 카운터 -->
+                        {% if forloop.counter == 1 %}
+                            {% define "active" as activeclass %}
+                        {% else %}
+                            {% define "" as activeclass %}
+                        {% endif %}
+                        <!-- 캐러셀 아이템 -->
+                        {% if carousel_item.nt_board_thumbnail != '' %}
+                        <div class="carousel-item {{ activeclass }}">
+                            <img src="/static/img/{{ carousel_item.nt_board_thumbnail }}" onclick="location.href = '/{{ boardname }}/detail/{{ carousel_item.nt_board_idx }}';" style="cursor: pointer;" class="d-block w-100">
+                        </div>
+                        {% else %}
+                        <div class="carousel-item {{ activeclass }}">
+                            <div onclick="location.href = '/{{ boardname }}/detail/{{ carousel_item.nt_board_idx }}';" style="cursor: pointer; min-height: 240px; border: 1px solid #aaa; background-color: #ddd;" class="d-block w-100">
+                                <div style="margin-top: 20%; margin-left: 6%; font-size: 2rem; font-family: 'Diphylleia', serif; font-weight: bolder;">{{ carousel_item.nt_board_subject }}</div>
+                            </div>
+                        </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <button class="carousel-button carousel-control-prev" type="button" data-bs-target="#main_carousel" data-bs-slide="prev">
@@ -52,7 +70,7 @@
                         <i class="fa fa-angle-right mr-2"></i>내 냉장고
                     </button>
                     {% if login_data.nt_user_admin_yn == 'Y' %}
-                    <button class="nectarist-login-option btn btn-block" onclick="location.href = '/admin_setmain/?page=1';">
+                    <button class="nectarist-login-option btn btn-block" onclick="location.href = '/admin_asetmain/?page=1';">
                         <i class="fa fa-angle-right mr-2"></i>관리자 페이지
                     </button>
                     {% endif %}
@@ -116,7 +134,7 @@
                     {% for cocktail in cocktail_list %}
                     <div class="col-6 col-lg-3">
                         <div class="nectarist-gallery-item" onclick="location.href = '/cocktailinfo/detail/{{ cocktail.nt_cocktail_idx }}';">
-                            <img src="{% static cocktail.nt_cocktail_thumbnail %}">
+                            <img src="/static/img/{{ cocktail.nt_cocktail_thumbnail }}">
                             <div class="nectarist-gallery-title">{{ cocktail.nt_cocktail_nm }}</div>
                         </div>
                     </div>

@@ -1,0 +1,112 @@
+{% extends 'templates/layout.html' %}
+{% load static %}
+{% block content %}
+<div class="px-3 pt-3 pb-4">
+    <div class="menu-title">
+        <span class="menu-name"><i class="fa fa-chevron-right" style="margin-bottom: 2px;"></i> {{ category_name }}</span>
+        <span class="menu-exp d-block d-lg-inline">: {{ category_exp }}</span>
+    </div>
+    <div class="mt-3">
+        <div class="row nectarist-form">
+            <!-- 칵테일 이름 -->
+            <div class="col-12 col-lg-2">
+                <div class="nectarist-form-title text-lg-right">칵테일 이름</div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <input id="nectarist_cocktailinfo_name" type="text" class="nectarist-form-input">
+            </div>
+            <!-- 칵테일 영어명 -->
+            <div class="col-12 col-lg-2">
+                <div class="nectarist-form-title text-lg-right">칵테일 영어명</div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <input id="nectarist_cocktailinfo_engname" type="text" class="nectarist-form-input">
+            </div>
+            <!-- 섬네일 -->
+            <div class="col-12 col-lg-2">
+                <div class="nectarist-form-title text-lg-right">섬네일</div>
+            </div>
+            <div class="col-12 col-lg-10">
+                <input id="nectarist_cocktailinfo_thumbnail" type="file" class="nectarist-form-input">
+            </div>
+            <!-- 재료 -->
+            <div class="col-12 col-lg-2">
+                <div class="nectarist-form-title text-lg-right">재료</div>
+            </div>
+            <div id="nectarist_cocktailinfo_ingcontainer" class="col-12 col-lg-10 pb-3">
+                <div class="row nectarist-blue-header mx-0">
+                    <div class="col-7 text-center text-primary">재료</div>
+                    <div class="col-2 text-center text-primary pr-0">분량</div>
+                    <div class="col-2 text-center text-primary pr-0">단위</div>
+                    <div class="col-1"></div>
+                </div>
+                <div class="row cocktail-ingrdnt-item mt-2">
+                    <div class="col-7 pr-0">
+                        <select class="nectarist-cocktailinfo-ingrdnt" style="width: 100%; height: 100%;">
+                            {% for cting in cting_data %}
+                            <option value="{{ cting.nt_ingrdnt_idx }}">{{ cting.nt_ingrdnt_nm }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-2 pr-0">
+                        <input type="text" class="nectarist-cocktailinfo-quant nectarist-form-input" style="height: 100%;">
+                    </div>
+                    <div class="col-2 pr-0">
+                        <input type="text" class="nectarist-cocktailinfo-unit nectarist-form-input" style="height: 100%;">
+                    </div>
+                    <div class="col-1 text-right pl-0">
+                        <button class="cocktail-ingrdnt-item-del btn btn-danger" disabled><i class="fa fa-times" style="position: relative; top: 3px;"></i></button>
+                    </div>
+                </div>
+                <button id="nectarist_cocktailinfo_ingaddbtn" class="btn btn-block btn-outline-primary mt-2" onclick="req_cocktailinfo_addingrdnt(this);">재료 추가</button>
+            </div>
+            <!-- 제조법 -->
+            <div class="col-12 col-lg-2">
+                <div class="nectarist-form-title text-lg-right">제조법</div>
+            </div>
+            <div class="col-12 col-lg-10 pb-3">
+                <textarea id="nectarist_cocktailinfo_recipe" class="nectarist-form-text" style="min-height: 185px;"></textarea>
+            </div>
+            <!-- 비고 -->
+            <div class="col-12 col-lg-2">
+                <div class="nectarist-form-title text-lg-right">비고</div>
+            </div>
+            <div class="col-12 col-lg-10 pb-3">
+                <textarea id="nectarist_cocktailinfo_memo" class="nectarist-form-text" style="min-height: 70px;"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 text-center">
+        {% if page_type == "new" %}
+        <button class="nectarist-button-dark-short btn" onclick="req_cocktailinfo_addsave();">등록</button>
+        {% elif page_type == "mod" %}
+        <button class="nectarist-button-dark-short btn" onclick="req_cocktailinfo_modsave({{ cno }});">저장</button>
+        {% endif %}
+    </div>
+</div>
+{% if page_type == "mod" %}
+<script>
+    // 수정시 기존 데이터 셋팅
+    document.getElementById("nectarist_cocktailinfo_name").value = "{{ detail_data.nt_cocktail_nm }}";
+    document.getElementById("nectarist_cocktailinfo_engname").value = "{{ detail_data.nt_cocktail_engnm }}";
+    document.getElementById("nectarist_cocktailinfo_recipe").value = "{{ detail_data.nt_cocktail_recipe }}";
+    document.getElementById("nectarist_cocktailinfo_memo").value = "{{ detail_data.nt_cocktail_memo }}";
+    // 재료 셋팅
+    var addBtn = document.getElementById("nectarist_cocktailinfo_ingaddbtn");
+    {% for recipe in recipe_data %}
+        {% if forloop.counter == 2 %}
+        addBtn.previousElementSibling.getElementsByTagName("BUTTON")[0].disabled = false;
+        {% endif %}
+        {% if forloop.counter != 1 %}
+        var newIng = addBtn.previousElementSibling.cloneNode(true);
+        addBtn.before(newIng);
+        {% endif %}
+        var befIng = addBtn.previousElementSibling;
+        befIng.getElementsByClassName("nectarist-cocktailinfo-ingrdnt")[0].value = "{{ recipe.nt_ingrdnt_idx_fk.nt_ingrdnt_idx }}";
+        befIng.getElementsByClassName("nectarist-cocktailinfo-quant")[0].value = "{{ recipe.nt_cocktail_recipe_amt }}";
+        befIng.getElementsByClassName("nectarist-cocktailinfo-unit")[0].value = "{{ recipe.nt_cocktail_recipe_unit }}";
+    {% endfor %}
+</script>
+{% endif %}
+{% csrf_token %}
+{% endblock %}

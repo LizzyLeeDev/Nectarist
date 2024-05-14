@@ -4,7 +4,7 @@
 <div class="px-3 pt-3 pb-4">
     <div class="menu-title pb-0">
         <span class="menu-name"><i class="fa fa-chevron-right" style="margin-bottom: 2px;"></i> 마이페이지</span>
-        {% include 'templates/mypage_subcategory.html' %}
+        {% include 'templates/container_category_mypage.html' %}
     </div>
     <div class="mt-3">
         <div class="row nectarist-form">
@@ -17,16 +17,21 @@
             <!-- 닉네임 -->
             <div class="col-12 col-lg-4 mt-3">
                 <div class="nectarist-form-title text-lg-right">닉네임</div>
-                <div class="nectarist-form-exp text-lg-right">2~10자</div>
+                <div class="nectarist-form-exp text-lg-right d-none nectarist-myinfo-afchange">2~10자</div>
             </div>
-            <div class="col-12 col-lg-4 mt-3">
-                <input id="nectarist_form_signup_name" type="text" data-valid="N" class="nectarist-form-input" maxlength="10">
+            <div class="col-12 col-lg-4 mt-3 nectarist-myinfo-befchange">{{ login_data.nt_user_nickname }}</div>
+            <div class="col-12 col-lg-4 mt-3 nectarist-myinfo-befchange">
+                <button id="nectarist_myinfo_changename" class="nectarist-form-button nectarist-button-white-short btn">닉네임 변경</button>
+            </div>
+            <div class="col-12 col-lg-4 mt-3 d-none nectarist-myinfo-afchange">
+                <input id="nectarist_form_signup_name" type="text" data-valid="N" class="nectarist-form-input" maxlength="10" value="{{ login_data.nt_user_nickname }}">
                 <div id="nectarist_form_invalidname" class="nectarist_form_name_result d-none text-danger">2자~10자를 입력해주세요.</div>
                 <div id="nectarist_form_dupname" class="nectarist_form_name_result d-none text-danger">중복된 닉네임입니다.</div>
                 <div id="nectarist_form_okname" class="nectarist_form_name_result d-none text-success">사용 가능한 닉네임입니다.</div>
             </div>
-            <div class="col-12 col-lg-4 mt-3">
-                <button class="nectarist-form-button nectarist-button-white-short btn" onclick="req_duplicate_name();">중복검사</button>
+            <div class="col-12 col-lg-4 mt-3 d-none nectarist-myinfo-afchange">
+                <button class="nectarist-form-button nectarist-button-white-short btn mr-3" onclick="req_duplicate_name();">중복검사</button>
+                <button class="nectarist-button-dark-short btn" onclick="req_mynickname();">저장</button>
             </div>
             <!-- 이메일 -->
             <div class="col-12 col-lg-4 mt-3">
@@ -36,8 +41,8 @@
             <div class="col-12 col-lg-4 mt-3"></div>
         </div>
     </div>
-    <div class="mt-3 text-center">
+    <!--div class="mt-3 text-center">
         <button class="nectarist-button-dark-short btn" onclick="req_mynickname();">저장</button>
-    </div>
+    </div-->
 </div>
 {% endblock %}

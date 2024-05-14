@@ -1,16 +1,17 @@
+{% load nectarist_filters %}
 <div id="container_category">
     <div class="container_space h-100">
         <nav class="navbar navbar-expand-lg h-100 px-1">
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav">
-                    {% for categorykey, category in categories.items %}
-                    {% if categorykey == category_current %}
+                    {% for category in category_list_main %}
+                    {% if category == category_current %}
                     <li class="navbar-item category-current">
-                        <a href="{{ category.url }}">{{ category.name }}</a>
+                        <a href="{{ categories|get_item:category|get_item:'url' }}">{{ categories|get_item:category|get_item:'name' }}</a>
                     </li>
                     {% else %}
                     <li class="navbar-item">
-                        <a href="{{ category.url }}">{{ category.name }}</a>
+                        <a href="{{ categories|get_item:category|get_item:'url' }}">{{ categories|get_item:category|get_item:'name' }}</a>
                     </li>
                     {% endif %}
                     {% endfor %}
@@ -22,11 +23,11 @@
                 <ul class="navbar-nav">
                     {% if category_current != 'main' and category_current != 'sign_in' %}
                     <li class="navbar-item">
-                        <a href="/mypage_myinfo/">마이페이지</a>
+                        <a href="{{ categories.myinfo.url }}">마이페이지</a>
                     </li>
                     {% if login_data.nt_user_admin_yn == 'Y' %}
                     <li class="navbar-item">
-                        <a href="/admin_setmain/">관리자페이지</a>
+                        <a href="{{ categories.admin_asetmain.url }}">관리자페이지</a>
                     </li>
                     {% endif %}
                     {% endif %}

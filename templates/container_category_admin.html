@@ -1,0 +1,14 @@
+{% load nectarist_filters %}
+<div id="admin_subcategory" class="mt-2">
+    {% for category in category_list_admin %}
+    {% if category == category_current %}
+    <div class="admin-subcategory-item category-current">
+        <a href="{{ categories|get_item:category|get_item:'url' }}">{{ categories|get_item:category|get_item:'name' }}</a>
+    </div>
+    {% else %}
+    <div class="admin-subcategory-item">
+        <a href="{{ categories|get_item:category|get_item:'url' }}">{{ categories|get_item:category|get_item:'name' }}</a>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>

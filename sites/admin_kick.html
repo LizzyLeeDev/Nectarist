@@ -1,0 +1,9 @@
+{% extends 'templates/layout.html' %}
+{% load static %}
+{% block content %}
+<!-- preloading + kick -->
+<script src="https://code.jquery.com/jquery-latest.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="{% static 'js/nectarist.js' %}"></script>
+<script> req_adminkick(); </script>
+{% endblock %}

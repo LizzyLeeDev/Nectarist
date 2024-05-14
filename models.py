@@ -42,7 +42,7 @@ class NtCocktail(models.Model):
     nt_cocktail_nm = models.CharField(db_column='NT_COCKTAIL_NM', max_length=50, blank=True, null=True)  # Field name made lowercase.
     nt_cocktail_engnm = models.CharField(db_column='NT_COCKTAIL_ENGNM', max_length=50, blank=True, null=True)  # Field name made lowercase.
     nt_cocktail_recipe = models.TextField(db_column='NT_COCKTAIL_RECIPE', blank=True, null=True)  # Field name made lowercase.
-    nt_cocktail_thumbnail = models.CharField(db_column='NT_COCKTAIL_THUMBNAIL', max_length=200, blank=True, null=True)  # Field name made lowercase.
+    nt_cocktail_thumbnail = models.FileField(db_column='NT_COCKTAIL_THUMBNAIL', upload_to='cocktail_thumbnail/', max_length=200, blank=True, null=True)  # Field name made lowercase.
     nt_cocktail_memo = models.CharField(db_column='NT_COCKTAIL_MEMO', max_length=300, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:

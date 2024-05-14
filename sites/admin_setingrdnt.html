@@ -1,0 +1,134 @@
+{% extends 'templates/layout.html' %}
+{% load nectarist_filters %}
+{% block content %}
+<div class="px-3 pt-3 pb-4">
+    <div class="menu-title pb-0">
+        <span class="menu-name"><i class="fa fa-chevron-right" style="margin-bottom: 2px;"></i> 관리자 페이지</span>
+        {% include 'templates/container_category_admin.html' %}
+    </div>
+    <div>
+        <div class="nectarist-board">
+            <div class="row">
+                <div class="col-1 text-center font-weight-bold py-2">순번</div>
+                <div class="col-2 text-center font-weight-bold py-2">종류</div>
+                <div class="col-6 text-center font-weight-bold py-2">재료명</div>
+                <div class="col-3"></div>
+            </div>
+            {% for ingrdnt in page_data %}
+                <!-- 종류 -->
+                {% if ingrdnt.nt_ingrdnt_type == '01' %}
+                    {% define "베이스" as typename %}
+                {% elif ingrdnt.nt_ingrdnt_type == '02' %}
+                    {% define "재료" as typename %}
+                {% elif ingrdnt.nt_ingrdnt_type == '03' %}
+                    {% define "기타" as typename %}
+                {% endif %}
+                <!-- 아이템 -->
+                <div class="nectarist-ingrdnt-item row" data-ingrdnt-idx="{{ ingrdnt.nt_ingrdnt_idx }}" data-ingrdnt-type="{{ ingrdnt.nt_ingrdnt_type }}" data-ingrdnt-name="{{ ingrdnt.nt_ingrdnt_nm }}">
+                    <div class="col-1 text-center py-1">{{ ingrdnt.nt_ingrdnt_idx }}</div>
+                    <div class="col-2 text-center py-1">{{ typename }}</div>
+                    <div class="col-6 py-1">{{ ingrdnt.nt_ingrdnt_nm }}</div>
+                    <div class="col-3 text-right py-1">
+                        <button class="nectarist-setingrdnt-mod btn nectarist-button-white-short text-success font-weight-bold py-0 mr-2" style="min-width: 70px;">수정</button>
+                        <button class="nectarist-setingrdnt-del btn nectarist-button-white-short text-danger font-weight-bold py-0" style="min-width: 70px;">삭제</button>
+                    </div>
+                </div>
+            {% endfor %}
+            {% if page_data.paginator.count == 0 %}
+                <div class="nectarist-board-item d-block d-lg-flex">
+                    <div class="nectarist-board-empty">
+                        등록된 재료가 없습니다.
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="nectarist-button-absolute text-right">
+        <button id="nectarist_setingrdnt_addingrdnt" class="btn nectarist-button-dark-short mt-3">추가</button>
+    </div>
+    <div class="mt-3">
+        {% include 'templates/paging.html' %}
+    </div>
+    <div class="mt-3">
+        <div class="nectarist-search">
+            <input type="text">
+            <button><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+</div>
+<!-- 추가 모달 -->
+<div id="nectarist_setingrdnt_addmodal" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="min-width: 700px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title font-weight-bold">칵테일 재료 추가</span>
+                <button class="modal-close" data-dismiss="modal">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-3 text-center text-primary">종류</div>
+                    <div class="col-7 text-center text-primary">재료명</div>
+                    <div class="col-2"></div>
+                </div>
+                <div class="row ingrdnt-item mt-2">
+                    <div class="col-3 pr-0">
+                        <select style="width: 100%; height: 100%;">
+                            {% for typeid, type in ingtype_data.items %}
+                            <option value="{{ typeid }}">{{ type }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" class="nectarist-form-input" style="height: 100%;">
+                    </div>
+                    <div class="col-1 pl-0">
+                        <button class="ingrdnt-item-del btn btn-danger" disabled><i class="fa fa-times" style="position: relative; top: 3px;"></i></button>
+                    </div>
+                </div>
+                <button class="btn btn-block btn-outline-primary mt-2" onclick="req_setingrdnt_addingrdnt(this);">재료 추가</button>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-block nectarist-button-dark-short" onclick="req_setingrdnt_addsave();">신규재료 저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 수정 모달 -->
+<div id="nectarist_setingrdnt_modmodal" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" style="min-width: 700px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title font-weight-bold">칵테일 재료 수정</span>
+                <button class="modal-close" data-dismiss="modal">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-3 text-center text-primary">종류</div>
+                    <div class="col-7 text-center text-primary">재료명</div>
+                    <div class="col-2"></div>
+                </div>
+                <div class="row ingrdnt-item mt-2">
+                    <div class="col-3 pr-0">
+                        <select style="width: 100%; height: 100%;">
+                            {% for typeid, type in ingtype_data.items %}
+                            <option value="{{ typeid }}">{{ type }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="nectarist-form-input" style="height: 100%;">
+                        <div class="d-none ingrdnt-no" data-ingrdnt-idx="00"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-block nectarist-button-dark-short" onclick="req_setingrdnt_modsave();">재료정보 저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

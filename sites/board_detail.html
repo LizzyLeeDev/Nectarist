@@ -22,6 +22,19 @@
             </div>
         </div>
     </div>
+    {% if board_tag_cocktail != None %}
+    <div class="mt-3">
+        {% for tag in board_tag_cocktail %}
+        <span class="badge badge-secondary"># {{ tag.nt_cocktail_nm }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if write_permission == 'Y' %}
+    <div class="text-right">
+        <button class="btn nectarist-button-white-short font-weight-bold text-success mt-3 mr-2" onclick="location.href = '/{{ category_current }}/mod/{{ bno }}';">수정</button>
+        <button class="btn nectarist-button-white-short font-weight-bold text-danger mt-3" onclick="req_board_del({{ bno }}, '{{ category_current }}');">삭제</button>
+    </div>
+    {% endif %}
     <div class="mt-3">
         <div class="nectarist-comment-header">댓글</div>
         <div class="nectarist-comment">
@@ -30,6 +43,22 @@
                 <div class="nectarist-comment-user">{{ comment.nt_user_idx_fk.nt_user_nickname }}</div>
                 <div class="nectarist-comment-text">{{ comment.nt_board_comment_text }}</div>
                 <div class="nectarist-comment-time">{{ comment.nt_board_comment_dt|date:'Y-m-d H:i:s' }}</div>
+                <div class="nectarist-comment-button text-right" style="min-width: 110px;">
+                    {% if comment.nt_user_idx_fk.nt_user_idx == login_data.nt_user_idx or login_data.nt_user_admin_yn == 'Y' %}
+                    <button class="btn nectarist-button-white-short font-weight-bold text-success py-0 mr-2" style="min-width: auto;" onclick="req_comment_mod(this);">
+                        <i class="fa fa-edit" style="position: relative; top: 2px;"></i>
+                    </button>
+                    <button class="btn nectarist-button-white-short font-weight-bold text-danger py-0" style="min-width: auto;" onclick="req_comment_del({{ comment.nt_board_comment_idx }});">
+                        <i class="fa fa-trash-o" style="position: relative; top: 3px;"></i>
+                    </button>
+                    {% endif %}
+                </div>
+                {% if comment.nt_user_idx_fk.nt_user_idx == login_data.nt_user_idx or login_data.nt_user_admin_yn == 'Y' %}
+                <textarea id="nectarist_comment_mod_input" class="nectarist-comment-mod-input nectarist-comment-input d-none"></textarea>
+                <div class="nectarist-comment-mod-button d-none">
+                    <button class="btn" style="border: 0; background-color: #424246; color: white; width: -webkit-fill-available;" onclick="req_comment_modsave(this, {{ comment.nt_board_comment_idx }});">수정</button>
+                </div>
+                {% endif %}
             </div>
             {% endfor %}
             {% if comment_data.count == 0 %}
@@ -45,7 +74,7 @@
             <div class="nectarist-comment-user">{{ login_data.nt_user_nickname }}</div>
             <textarea id="nectarist_comment_input" class="nectarist-comment-input"></textarea>
             <div class="nectarist-comment-button">
-                <button class="btn" onclick="req_add_board_comment({{ bno }});">등록</button>
+                <button class="btn" style="border: 0; background-color: #424246; color: white; width: -webkit-fill-available;" onclick="req_add_board_comment({{ bno }});">등록</button>
             </div>
         </div>
         {% endif %}

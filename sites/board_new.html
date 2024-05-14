@@ -21,12 +21,21 @@
             <div class="col-12 col-lg-10 pb-3">
                 <textarea id="nectarist_form_text" class="nectarist-form-text"></textarea>
             </div>
+            <!-- 섬네일 -->
+            {% if board_type == '01' or board_type == '02' %}
+            <div class="col-12 col-lg-2">
+                <div class="nectarist-form-title text-lg-right">섬네일</div>
+            </div>
+            <div class="col-12 col-lg-10">
+                <input id="nectarist_form_thumbnail" type="file" class="nectarist-form-input">
+            </div>
+            {% endif %}
             <!-- 칵테일 태그-->
             <div class="col-12 col-lg-2">
                 <div class="nectarist-form-title text-lg-right">칵테일 태그</div>
             </div>
             <div class="col-12 col-lg-10">
-                <select class="nectarist-form-select select2" multiple="multiple">
+                <select id="nectarist_board_tag" class="nectarist-form-select select2" multiple="multiple">
                     {% for cocktail in cocktail_list %}
                     <option value="{{ cocktail.nt_cocktail_idx }}">{{ cocktail.nt_cocktail_nm }}</option>
                     {% endfor %}
@@ -35,7 +44,25 @@
         </div>
     </div>
     <div class="mt-3 text-center">
-        <button class="nectarist-button-dark-short btn" onclick="req_board_new('{{ board_type }}','/{{ category_current }}');">등록</button>
+        {% if page_type == "new" %}
+        <button class="nectarist-button-dark-short btn" onclick="req_board_new('{{ board_type }}', '/{{ category_current }}');">등록</button>
+        {% elif page_type == "mod" %}
+        <button class="nectarist-button-dark-short btn" onclick="req_board_modsave('{{ board_type }}', '/{{ category_current }}', {{ bno }});">저장</button>
+        {% endif %}
     </div>
 </div>
+{% if page_type == "mod" %}
+<script>
+    // 수정시 기존 데이터 셋팅
+    document.getElementById("nectarist_form_title").value = "{{ detail_data.nt_board_subject }}";
+    // 태그 버블링 방지
+    var boardText = "{{ detail_data.nt_board_contents|safe|linebreaksbr }}";
+    document.getElementById("nectarist_form_text").value = boardText.slice(3, -4);
+    var options = Array.from(document.querySelectorAll("#nectarist_board_tag option"));
+    "{{ detail_data.nt_board_cocktail }}".split(',').forEach(function (tag) {
+        options.find(opt => opt.value == tag).selected = true
+    });
+</script>
+{% endif %}
+{% csrf_token %}
 {% endblock %}

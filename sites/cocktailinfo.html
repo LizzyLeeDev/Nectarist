@@ -11,13 +11,18 @@
             {% for cocktail in page_data %}
             <div class="col-6 col-lg-3">
                 <div class="nectarist-gallery-item" onclick="location.href = '/cocktailinfo/detail/{{ cocktail.nt_cocktail_idx }}';">
-                    <img src="{% static cocktail.nt_cocktail_thumbnail %}">
+                    <img src="/static/img/{{ cocktail.nt_cocktail_thumbnail }}">
                     <div class="nectarist-gallery-title">{{ cocktail.nt_cocktail_nm }}</div>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
+    {% if write_permission == 'Y' %}
+    <div class="nectarist-button-absolute text-right">
+        <button class="btn nectarist-button-dark-short mt-3" onclick="location.href = '/{{ category_current }}/new';">칵테일 등록</button>
+    </div>
+    {% endif %}
     <div class="mt-3">
         {% include 'templates/paging.html' %}
     </div>
